@@ -1,0 +1,1 @@
+java -Xmx512m -jar ~/Desktop/CartogramApp/ScapeToad/jars/ScapeToad.jar

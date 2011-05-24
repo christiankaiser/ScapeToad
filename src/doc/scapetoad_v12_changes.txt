@@ -1,0 +1,18 @@
+ScapeToad 1.2 - What's new
+--------------------------
+
+
+1. The cartogram computation has been optimized for speed and for memory usage.
+
+2. The diffusion algorithm uses now a standard fourth-order Runge-Kutta integration method for solving the diffusion equation.
+
+3. The Fourier transform is now parallelized and is therefore able to use more than one processor on your system.
+
+4. The cartogram and diffusion grids are now of the same size, which speeds up the computation, diminishes the memory usage, and is less confusing for the user.
+
+5. A problem with memory management causing eventually ScapeToad to hang has been solved.
+
+
+
+
+
