@@ -449,7 +449,7 @@ public class Cartogram extends com.sun.swing.SwingWorker
 			}
 			
 			mCartogramWizard.updateRunningStatus(950,
-				"Producing the comutation report...",
+				"Producing the computation report...",
 				"");
 			
 			return projLayers;
