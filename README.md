@@ -1,5 +1,5 @@
-Welcome to ScapeToad 1.2
-========================
+Welcome to ScapeToad
+====================
 
 
 ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a transformed 
