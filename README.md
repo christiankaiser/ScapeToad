@@ -2,10 +2,10 @@ Welcome to ScapeToad
 ====================
 
 
-ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a transformed 
-map where the polygons are proportional to the value of a given statistical variable, e.g. the 
-population. More information is available on the project web site at chorogram.choros.ch/scapetoad 
-or on the Github project site.
+ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a 
+transformed map where the polygons are proportional to the value of a given statistical 
+variable, e.g. the population. More information is available on the project web site at 
+chorogram.choros.ch/scapetoad or on the Github project site.
 
 
 Requirements
@@ -33,6 +33,16 @@ Mac OS X, an executable file for Windows, and a multi-platform JAR file with a s
 the Unix platform.
 
 
+Compilation
+-----------
+
+Compile process should be straightforward by using Ant. With Ant installed, simply cd to
+the src directory and run ant. Resulting JAR file will be in dist directory.
+
+There is also a jsmooth project file inside win directory for creating a Windows 
+executable using JSmooth (http://jsmooth.sourceforge.net/).
+
+
 Installation
 ------------
 
@@ -55,4 +65,4 @@ java -Xmx512m -jar /your/install/folder/ScapeToad.jar
 
 Christian Kaiser - Project administrator
 chri.kais@gmail.com
-Last updated: 29 April 2011
+Last updated: 5 June 2012
