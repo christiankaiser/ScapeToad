@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -26,8 +26,6 @@ package ch.epfl.scapetoad;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.zip.DataFormatException;
-
 
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -40,9 +38,8 @@ import com.vividsolutions.jump.feature.FeatureSchema;
 import com.vividsolutions.jump.workbench.model.Layer;
 
 
-
-
-public class CartogramLayer {
+public class CartogramLayer
+{
 
 
 
@@ -52,7 +49,8 @@ public class CartogramLayer {
 	 * @param name the name of the new attribute.
 	 * @param type the type of the new attribute.
 	 */
-	public static void addAttribute (Layer lyr, String name, AttributeType type) {
+	public static void addAttribute (Layer lyr, String name, AttributeType type)
+	{
 			
 		// Get the FeatureSchema.
 		FeatureCollectionWrapper fcw = lyr.getFeatureCollectionWrapper();
@@ -92,44 +90,32 @@ public class CartogramLayer {
 
 	/**
 	 * Adds a new attribute containing the density value for a given
-	 * attribute. We check at the same time if there are some values bigger than 0.
-	 * If not, we raise an exception as we cannot compute a cartogram on a 0 surface.
+	 * attribute.
 	 * @param populationAttr the name of the (existing) attribute for which
 	 *        we shall compute the density.
 	 * @param densityAttr the name of the new density attribute.
 	 */
-	public static void addDensityAttribute (Layer layer, String populationAttr, String densityAttr) 
-	throws DataFormatException 
+	public static void addDensityAttribute 
+		(Layer layer, String populationAttr, String densityAttr)
 	{
 	
-		boolean allValuesAreZero = true;
-		
 		CartogramLayer.addAttribute(layer, densityAttr, AttributeType.DOUBLE);
 		
 		Iterator featIter = layer.getFeatureCollectionWrapper().iterator();
-		while (featIter.hasNext()) {
+		while (featIter.hasNext())
+		{
 			Feature feat = (Feature)featIter.next();
 			Geometry geom = feat.getGeometry();
 			double geomArea = geom.getArea();
-			double attrValue = CartogramFeature.getAttributeAsDouble(feat, populationAttr);
+			double attrValue = 
+				CartogramFeature.getAttributeAsDouble(feat, populationAttr);
 			
 			double density = 0.0;
-			if (geomArea > 0 && attrValue > 0) {
+			if (geomArea > 0 && attrValue > 0)
 				density = attrValue / geomArea;
-				allValuesAreZero = false;
-			}
 
 			feat.setAttribute(densityAttr, new Double(density));
-		}
-		
-		if (allValuesAreZero) {
-			throw new DataFormatException(
-				"All values in the attribute '" + populationAttr + "' of layer '" + layer.getName() + "' \n" +
-				"are zero.\n\n" + 
-				"This might be an error related to the underlying JUMP framework.\n\n" + 
-				"Please check your layer with a GIS software such as: \n" +
-				"- QuantumGIS (www.qgis.org) or\n" +
-				"- OpenJUMP (www.openjump.org).");
+			
 		}
 	
 	}	// CartogramLayer.addDensityAttribute
@@ -142,18 +128,26 @@ public class CartogramLayer {
 	 * Computes the mean value for the given attribute weighted by
 	 * the feature area.
 	 */
-	public static double meanDensityWithAttribute (Layer layer, String attrName) {
+	public static double meanDensityWithAttribute (Layer layer, String attrName)
+	{
+	
 		double totalArea = CartogramLayer.totalArea(layer);
 		double meanDensity = 0.0;
+	
 		Iterator featIter = layer.getFeatureCollectionWrapper().iterator();
-		while (featIter.hasNext()) {
+		while (featIter.hasNext())
+		{
 			Feature feat = (Feature)featIter.next();
 			Geometry geom = feat.getGeometry();
 			double geomArea = geom.getArea();
-			double attrValue = CartogramFeature.getAttributeAsDouble(feat, attrName);
+			double attrValue = 
+				CartogramFeature.getAttributeAsDouble(feat, attrName);
+				
 			meanDensity += (geomArea / totalArea) * attrValue;
 		}
+		
 		return meanDensity;
+		
 	}
 	
 	
@@ -168,7 +162,8 @@ public class CartogramLayer {
 		double meanValue = 0.0;
 	
 		Iterator featIter = layer.getFeatureCollectionWrapper().iterator();
-		while (featIter.hasNext()) {
+		while (featIter.hasNext())
+		{
 			Feature feat = (Feature)featIter.next();
 			double val = CartogramFeature.getAttributeAsDouble(feat, attrName);
 			meanValue += val;

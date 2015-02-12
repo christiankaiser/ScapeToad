@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -61,7 +61,7 @@ import com.vividsolutions.jump.workbench.ui.renderer.style.LabelStyle;
  * It is a subclass of the SwingWorker class.
  * It has methods for setting all the parameters and for
  * launching the computation.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-30
  */
 public class Cartogram extends com.sun.swing.SwingWorker
@@ -133,8 +133,8 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	/**
 	 * The size of the cartogram grid.
 	 */
-	int mGridSizeX = 1000;
-	int mGridSizeY = 1000;
+	int mGridSizeX = 100;
+	int mGridSizeY = 100;
 	
 	/**
 	 * All the deformation is done on this cartogram grid.
@@ -159,13 +159,13 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	 * If the advanced options are enabled, this is the grid size for the
 	 * diffusion algorithm.
 	 */
-	//int mDiffusionGridSize = 128;
+	int mDiffusionGridSize = 128;
 	
 	/**
 	 * If the advanced options are enabled, this is the number of iterations
 	 * the diffusion algorithm is run on the cartogram grid.
 	 */
-	//int mDiffusionIterations = 3;
+	int mDiffusionIterations = 3;
 	
 	
 	/**
@@ -237,13 +237,6 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	
 	
 	
-	/**
-	 * The cartogram bias value used in the cartogram grid.
-	 */
-	public double bias = 0.000001;
-	
-	
-	boolean errorOccured = false;
 	
 	
 	
@@ -264,42 +257,87 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	 * The construct method is an overriden method from
 	 * SwingWorker which does initiate the computation process.
 	 */
-	public Object construct() {
+	public Object construct()
+	{
 	
-		try {
+		try
+		{
 	
 			mComputationStartTime = System.nanoTime();
 			
-			if (mAdvancedOptionsEnabled == false) {
-				// Automatic estimation of the parameters using the amount of deformation slider.
-				// The deformation slider modifies only the grid size between 500 (quality 0) and 3000 (quality 100).
-				mGridSizeX = (mAmountOfDeformation * 15) + 250;
-				mGridSizeY = mGridSizeX;
+	
+			// Estimating the grid size and number of loops based on
+			// the amount of deformation value.
+			// The amount of deformation is a value between 0 and 100.
+			//  mGridSizeX and mGridSizeY are the cartogram grid size values,
+			//  gastnerGridSize is the size of the diffusion grid (power of 2),
+			//  gastnerLoops is the number of loops for the diffusion algorihtm.
+			// The cartogram grid size varies between 100 and 1100.
+			// The gastner grid size varies between 128 (2^7) and 512 (2^9).
+			// The number of gastner loops varies between 1 and 4.
+			
+			int gastnerGridSize = 128;
+			int gastnerLoops = 1;
+			
+			if (mAdvancedOptionsEnabled)
+			{
+			
+				gastnerGridSize = mDiffusionGridSize;
+				gastnerLoops = mDiffusionIterations;
+			
 			}
+			else
+			{
+				// Automatic estimation of the parameters using the
+				// amount of deformation slider.
+				mGridSizeX = (mAmountOfDeformation * 10) + 100;
+				mGridSizeY = mGridSizeX;
+			
+				double gastnerGridPower = 8;
+				if (mAmountOfDeformation < 34) gastnerGridPower = 7;
+				if (mAmountOfDeformation > 66) gastnerGridPower = 9;
+				double gastnerGridSizeDbl = Math.pow(2, gastnerGridPower);
+				gastnerGridSize = (int)gastnerGridSizeDbl;
+			
+				double gastnerLoopsDbl = (double)mAmountOfDeformation / 25.0;
+				gastnerLoopsDbl = Math.floor(gastnerLoopsDbl);
+				gastnerLoops = (int)gastnerLoopsDbl + 1;
+				if (gastnerLoops < 1) gastnerLoops = 1;
+				if (gastnerLoops > 4) gastnerLoops = 4;
+				
+				mDiffusionGridSize = gastnerGridSize;
+				mDiffusionIterations = gastnerLoops;
+			
+			}
+			
 	
 			// User information.
 			mCartogramWizard.updateRunningStatus(0, 
 				"Preparing the cartogram computation...", 
 				"Computing the cartogram bounding box");
 			
+			
 			// Compute the envelope given the initial layers.
 			// The envelope will be somewhat larger than just the layers.
 			this.updateEnvelope();
 			
+			
 			// Adjust the cartogram grid size in order to be proportional
 			// to the envelope.
 			this.adjustGridSizeToEnvelope();
-			if (AppContext.DEBUG) {
+			if (AppContext.DEBUG) 
 				System.out.println("Adjusted grid size: " + mGridSizeX + "x" + 
 					mGridSizeY);
-			}
+			
 			
 			mCartogramWizard.updateRunningStatus(20, 
 				"Preparing the cartogram computation...", 
 				"Creating the cartogram grid");
+				
 			
 			// Create the cartogram grid.
 			mGrid = new CartogramGrid(mGridSizeX, mGridSizeY, mEnvelope);
+				
 			
 			if (Thread.interrupted())
 			{
@@ -380,26 +418,38 @@ public class Cartogram extends com.sun.swing.SwingWorker
 
 
 
-			// *** COMPUTE THE CARTOGRAM USING THE DIFFUSION ALGORITHM ***
-			
-			mCartogramWizard.updateRunningStatus(350, "Computing cartogram diffusion...", 
-												 "Starting the diffusion process");
-			CartogramNewman cnewm = new CartogramNewman(mGrid);
-			
-			// Enable the CartogramNewman instance to update the running status.
-			cnewm.runningStatusWizard = mCartogramWizard;
-			cnewm.runningStatusMinimumValue = 350;
-			cnewm.runningStatusMaximumValue = 700;
-			cnewm.runningStatusMainString = "Computing cartogram diffusion...";
-			
-			// Let's go!
-			cnewm.compute();
-			
-			if (Thread.interrupted())
+			// *** RUN THE DIFFUSION ALGORITHM ***
+
+			for (int i = 0; i < gastnerLoops; i++)
 			{
-				// Raise an InterruptedException.
-				throw new InterruptedException("Computation has been interrupted by the user.");
+				int adv0 = (int)(300 + ((double)i / (double)gastnerLoops) * 400);
+				int adv1 = (int)(300 + ((double)(i+1) / (double)gastnerLoops) * 400);
+				String text1 = "Computing diffusion iteration " + (i+1) +
+					" of " + gastnerLoops;
+				mCartogramWizard.updateRunningStatus(adv0, text1, "");
+			
+				CartogramGastner cgast = new CartogramGastner(mGrid);
+				cgast.mProgressStart = adv0;
+				cgast.mProgressEnd = adv1;
+				cgast.mProgressText = text1;
+				cgast.mCartogramWizard = mCartogramWizard;
+				
+				cgast.compute(gastnerGridSize);
+				
+				if (i < (gastnerLoops - 1))
+					mGrid.updateDensityValues();
+				
+				
+				if (Thread.interrupted())
+				{
+					// Raise an InterruptedException.
+					throw new InterruptedException(
+						"Computation has been interrupted by the user.");
+				}
+				
+				
 			}
+			
 			
 			
 			
@@ -434,52 +484,58 @@ public class Cartogram extends com.sun.swing.SwingWorker
 
 			Layer[] projLayers = this.projectLayers();
 			
-			if (Thread.interrupted()) {
+			
+			
+			if (Thread.interrupted())
+			{
 				// Raise an InterruptedException.
-				throw new InterruptedException("Computation has been interrupted by the user.");
+				throw new InterruptedException(
+					"Computation has been interrupted by the user.");
 			}
+			
+			
 			
 			// *** CREATE THE DEFORMATION GRID LAYER ***
 			if (mCreateGridLayer)
 				this.createGridLayer();
 			
+			
+			
+			
 			// *** CREATE THE LEGEND LAYER ***
-			if (mCreateLegendLayer) {
+			if (mCreateLegendLayer)
 				this.createLegendLayer();
-			}
+			
+			
+			
 			
 			mCartogramWizard.updateRunningStatus(950,
-				"Producing the computation report...",
+				"Producing the comutation report...",
 				"");
+				
+				
+			
 			
 			return projLayers;
+			
+			
 		
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		
 			String exceptionType = e.getClass().getName();
 			
-			if (exceptionType == "java.lang.InterruptedException") {
+			if (exceptionType == "java.lang.InterruptedException")
+			{
 				mCartogramWizard.setComputationError(
 					"The cartogram computation has been cancelled.",
 					"",
 					"");
-				errorOccured = true;
-			} else if (exceptionType == "java.util.zip.DataFormatException") {
-				// Retrieve the complete stack trace and display.
-				/*StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw, true);
-				e.printStackTrace(pw);
-				pw.flush();
-				sw.flush();*/
-				mCartogramWizard.setComputationError(
-					"An error occured during cartogram computation!",
-					"All attribute values are zero",
-					//sw.toString()
-					e.getMessage()
-				);
-				errorOccured = true;
-			} /*else {
-				// Retrieve the complete stack trace and display.
+			}
+			else
+			{
+				// Retrieve the complete stack trace.
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw, true);
 				e.printStackTrace(pw);
@@ -490,15 +546,16 @@ public class Cartogram extends com.sun.swing.SwingWorker
 					"An error occured during cartogram computation!",
 					e.getLocalizedMessage(),
 					sw.toString());
-			}*/
+			}
 			
 			mCartogramWizard.goToFinishedPanel();
 			
 			
-			/*if (AppContext.DEBUG) {
+			if (AppContext.DEBUG)
+			{
 				System.out.println("Error during cartogram computation!");
 				e.printStackTrace();
-			}*/
+			}
 			return null;
 		}
 		
@@ -518,24 +575,11 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	public void finished ()
 	{
 	
-		// If there was an error, stop here.
-		if (errorOccured) {
-			return;
-		}
-		
-		
+	
 		// *** GET THE PROJECTED LAYERS ***
 		
 		Layer[] lyr = (Layer[])this.get();
 
-		if (lyr == null)
-		{
-			mCartogramWizard.setComputationError("An error occured during cartogram computation!", 
-												 "", 
-												 "An unknown error has occured.\n\nThere may be unsufficient memory resources available. Try to:\n\n1.\tUse a smaller cartogram grid (through the transformation\n\tquality slider at the wizard step 5, or through the\n\t\"Advanced options...\" button, also at step 5.\n\n2.\tYou also may to want to increase the memory available\n\tto ScapeToad. To do so, you need the cross platform\n\tJAR file and \n\tlaunch ScapeToad from the command\n\tline, using the -Xmx flag of \n\tyour Java Virtual\n\tMachine. By default, ScapeToad has 1024 Mo of memory.\n\tDepending on your system, there may be less available.\n\n3.\tIf you think there is a bug in ScapeToad, you can file\n\ta bug \n\ton Sourceforge \n\t(http://sourceforge.net/projects/scapetoad).\n\tPlease describe in detail your problem and provide all\n\tnecessary \n\tdata for reproducing your error.\n\n");
-			mCartogramWizard.goToFinishedPanel();
-			return;
-		}
 		
 		
 		// *** HIDE ALL LAYERS ALREADY PRESENT ***
@@ -769,9 +813,9 @@ public class Cartogram extends com.sun.swing.SwingWorker
 		}
 		
 		
-		// Enlarge the envelope by 50%.
-		mEnvelope.expandBy(mEnvelope.getWidth() * 0.2, 
-			mEnvelope.getHeight() * 0.2);
+		// Enlarge the envelope by 5%.
+		mEnvelope.expandBy(mEnvelope.getWidth() * 0.05, 
+			mEnvelope.getHeight() * 0.05);
 		
 		
 	}	// Cartogram.updateEnvelope
@@ -793,7 +837,6 @@ public class Cartogram extends com.sun.swing.SwingWorker
 			
 		double width = mEnvelope.getWidth();
 		double height = mEnvelope.getHeight();
-				
 		
 		if (width < height)
 		{
@@ -806,10 +849,6 @@ public class Cartogram extends com.sun.swing.SwingWorker
 			mGridSizeY = (int)Math.round(mGridSizeX * (height / width));
 		}
 		
-		
-
-		
-		
 	}	// Cartogram.adjustGridSizeToEnvelope
 
 
@@ -819,8 +858,8 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	/**
 	 * Projects all layers. Creates a new layer for each projected layer.
 	 */
-	private Layer[] projectLayers () 
-	throws Exception
+	private Layer[] projectLayers ()
+	throws InterruptedException
 	{
 		
 		// Get the number of layers to project
@@ -972,7 +1011,7 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	
 	
 	
-	/*public int getDiffusionGridSize ()
+	public int getDiffusionGridSize ()
 	{
 		return mDiffusionGridSize;
 	}
@@ -981,10 +1020,10 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	public void setDiffusionGridSize (int size)
 	{
 		mDiffusionGridSize = size;
-	}*/
+	}
 	
 	
-	/*public int getDiffusionIterations ()
+	public int getDiffusionIterations ()
 	{
 		return mDiffusionIterations;
 	}
@@ -993,7 +1032,7 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	public void setDiffusionIterations (int iterations)
 	{
 		mDiffusionIterations = iterations;
-	}*/
+	}
 	
 	
 
@@ -1156,10 +1195,13 @@ public class Cartogram extends com.sun.swing.SwingWorker
 	/**
 	 * Creates an optional legend layer.
 	 */
-	private void createLegendLayer() {
+	private void createLegendLayer()
+	{
 		
 		// The master layer.
 		Layer masterLayer = mLayerManager.getLayer(mMasterLayer);
+		
+		
 		
 		double distanceBetweenSymbols = 
 			(masterLayer.getFeatureCollectionWrapper().getEnvelope().
@@ -1171,10 +1213,16 @@ public class Cartogram extends com.sun.swing.SwingWorker
 		double attrMax = CartogramLayer.maxValueForAttribute(
 				masterLayer, mMasterAttribute);
 
-		if (mLegendValues == null) {
+		if (mLegendValues == null)
+		{
 			
-			double attrMin = CartogramLayer.minValueForAttribute(masterLayer, mMasterAttribute);
-			double attrMean = CartogramLayer.meanValueForAttribute(masterLayer, mMasterAttribute);
+			double attrMin = CartogramLayer.minValueForAttribute(
+				masterLayer, mMasterAttribute);
+			
+			double attrMean = CartogramLayer.meanValueForAttribute(
+				masterLayer, mMasterAttribute);
+			
+			
 			int nvalues = 3;
 			
 			double maxLog = Math.floor(Math.log10(attrMax));
@@ -1186,6 +1234,8 @@ public class Cartogram extends com.sun.swing.SwingWorker
 			mLegendValues[1] = maxValue;
 			mLegendValues[2] = attrMax;
 		}
+		
+		
 		
 		
 		// CREATE THE NEW LAYER
@@ -1204,16 +1254,25 @@ public class Cartogram extends com.sun.swing.SwingWorker
 		// Create a Geometry Factory for creating the points.
 		GeometryFactory gf = new GeometryFactory();
 
+
+
 		
 		// CREATE THE FEATURES FOR THE LEGEND LAYER.
+		
 		int nvals = mLegendValues.length;
+		
 		double totalArea = CartogramLayer.totalArea(masterLayer);
-		double valuesSum = CartogramLayer.sumForAttribute(masterLayer, mMasterAttribute);
+		double valuesSum = CartogramLayer.sumForAttribute(
+			masterLayer, mMasterAttribute);
+		
 		double x = mEnvelope.getMinX();
 		double y = mEnvelope.getMinY();
+		
 		int id = 1;
+		
 		int valcnt;
-		for (valcnt = 0; valcnt < nvals; valcnt++) {
+		for (valcnt = 0; valcnt < nvals; valcnt++)
+		{
 			double valsize = totalArea / valuesSum * mLegendValues[valcnt];
 			double rectsize = Math.sqrt(valsize);
 			
@@ -1296,10 +1355,8 @@ public class Cartogram extends com.sun.swing.SwingWorker
 		rep.append("Transformation quality: " + transformationQuality + "\n");
 		
 		rep.append("Cartogram grid size: "+ mGridSizeX +" x "+ mGridSizeY +"\n");
-		rep.append("Bias value: " + this.bias + "\n");
-		rep.append("\n");
-		//rep.append("Diffusion grid size: "+ mDiffusionGridSize +"\n");
-		//rep.append("Diffusion iterations: "+ mDiffusionIterations +"\n\n");
+		rep.append("Diffusion grid size: "+ mDiffusionGridSize +"\n");
+		rep.append("Diffusion iterations: "+ mDiffusionIterations +"\n\n");
 		
 		
 		

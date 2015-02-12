@@ -38,7 +38,7 @@ import com.Ostermiller.util.Browser;
 
 /**
  * The size error legend window.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2008-04-30
  */
 public class SizeErrorLegend extends JFrame
@@ -84,7 +84,7 @@ class IconMouseListener implements MouseListener
 		try
 		{
 			Browser.init();
-			Browser.displayURL("http://scapetoad.choros.ch/help/d-computation-report.php#cartogram-error");
+			Browser.displayURL("http://chorogram.choros.ch/scapetoad/help/d-computation-report.php#cartogram-error");
 		}
 		catch (Exception exc)
 		{

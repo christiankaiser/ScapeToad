@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -46,42 +46,50 @@ import com.vividsolutions.jump.feature.FeatureSchema;
 /**
  * Represents a basic feature from the Jump package, but with a couple
  * of additional methods useful for the cartogram project.
- * @author Christian Kaiser <christian@swisscarto.ch>
+ * @author Christian Kaiser <Christian.Kaiser@91nord.com>
  * @version v1.0.0, 2007-11-30
  */
 public class CartogramFeature
 {
 	
-	public static double getAttributeAsDouble (Feature feat, String attrName) {
-		FeatureSchema fschema = feat.getSchema();
-		if (fschema.hasAttribute(attrName) == false) {
-			return 0.0;
-		}
+	public static double getAttributeAsDouble (Feature feat, String attrName)
+	{
+		AttributeType attrType = feat.getSchema().getAttributeType(attrName);
 		
-		AttributeType attrType = fschema.getAttributeType(attrName);
-		if (attrType == AttributeType.DOUBLE) {
+		if (attrType == AttributeType.DOUBLE)
+		{
 			Double dblValue = (Double)feat.getAttribute(attrName);
 			return dblValue.doubleValue();
-		} else if (attrType == AttributeType.INTEGER) {
+		}
+		else if (attrType == AttributeType.INTEGER)
+		{
 			Integer intValue = (Integer)feat.getAttribute(attrName);
 			return intValue.doubleValue();
 		}
 		
 		return 0.0;
-	}
+		
+	}	// CartogramFeature.getAttributeAsDouble
 	
 	
 	
 	
-	public static void setDoubleAttributeValue (Feature feat, String attrName, double value) {
+	public static void setDoubleAttributeValue (Feature feat, 
+		String attrName, double value)
+	{
 		AttributeType attrType = feat.getSchema().getAttributeType(attrName);
-		if (attrType == AttributeType.DOUBLE) {
+		
+		if (attrType == AttributeType.DOUBLE)
+		{
 			feat.setAttribute(attrName, new Double(value));
-		} else if (attrType == AttributeType.INTEGER) {
+		}
+		else if (attrType == AttributeType.INTEGER)
+		{
 			int intValue = (int)Math.round(value);
 			feat.setAttribute(attrName, new Integer(intValue));
 		}
-	}
+		
+	}	// CartogramFeature.setDoubleAttributeValue
 	
 	
 	
@@ -90,7 +98,10 @@ public class CartogramFeature
 	/**
 	 * Projects the provided Feature using the provided cartogram grid.
 	 */
-	public static Feature projectFeatureWithGrid (Feature feat, CartogramGrid grid){
+	public static Feature projectFeatureWithGrid 
+		(Feature feat, CartogramGrid grid)
+	{
+	
 		Geometry geom = feat.getGeometry();
 		GeometryFactory gf = geom.getFactory();
 		String geomType = geom.getGeometryType();

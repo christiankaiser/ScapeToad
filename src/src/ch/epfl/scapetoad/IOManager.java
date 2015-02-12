@@ -58,14 +58,12 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-
 
 
 /**
  * The input/output manager reads and writes all the files
  * for our application.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 public class IOManager
@@ -350,8 +348,12 @@ public class IOManager
 
 		// Compute the scaling factor for the coordinate conversion.
 
-		double scaleFactorX = (svgWidth - svgMarginLeft - svgMarginRight) / extent.getWidth();
-		double scaleFactorY = (svgHeight - svgMarginTop - svgMarginBottom) / extent.getHeight();
+		double scaleFactorX = (svgWidth - svgMarginLeft - svgMarginRight) /
+							  extent.getWidth();
+
+		double scaleFactorY = (svgHeight - svgMarginTop - svgMarginBottom) /
+							  extent.getHeight();
+		
 		double sclfact = Math.min(scaleFactorX, scaleFactorY);
 
 
@@ -565,35 +567,34 @@ public class IOManager
 			for (geomcnt = 0; geomcnt < ngeoms; geomcnt++)
 			{
 				Geometry g = geom.getGeometryN(geomcnt);
-				String pathPart = IOManager.geometryToSvgPath (g, env, scaleFactor, minX, maxX, minY, maxY);
+				String pathPart = IOManager.geometryToSvgPath (g, env, 
+					scaleFactor, minX, maxX, minY, maxY);
 				path = path + pathPart;
 			}
 		}
 		else
 		{
+			path = path + "M ";
+
+			Coordinate[] coords = geom.getCoordinates();
+			int ncoords = coords.length;
+			if (ncoords == 0) return "";
 			
-			// Get the type of the Geometry. If it is a Polygon, we should handle the exterior and interior rings
-			// in an appropriate way.
-			String geomType = geom.getGeometryType();
-			
-			if (geomType == "Polygon") {
-				// Exterior ring first.
-				Polygon p = (Polygon)geom;
-				Coordinate[] coords = p.getExteriorRing().getCoordinates();
-				String subPath = IOManager.coordinatesToSvgPath(coords, env, scaleFactor, minX, maxX, minY, maxY);
-				path = path + subPath;
+			int coordcnt = 0;
+			for (coordcnt = 0; coordcnt < ncoords; coordcnt++)
+			{
+				double x = 
+					(coords[coordcnt].x - env.getMinX()) * scaleFactor + minX;
 				
-				// Interior rings.
-				int nrings = p.getNumInteriorRing();
-				for (int i=0; i < nrings; i++) {
-					coords = p.getInteriorRingN(i).getCoordinates();
-					subPath = IOManager.coordinatesToSvgPath(coords, env, scaleFactor, minX, maxX, minY, maxX);
-					path = path + subPath;
-				}
-			} else {
-				Coordinate[] coords = geom.getCoordinates();
-				String subPath = IOManager.coordinatesToSvgPath(coords, env, scaleFactor, minX, maxX, minY, maxY);
-				path = path + subPath;
+				double y = 
+					((coords[coordcnt].y - env.getMinY()) / env.getHeight());
+				y = 1.0 - y;
+				y = (y * env.getHeight() * scaleFactor) + minY;
+				
+				path = path + x +" "+ y +" ";
+				
+				if (coordcnt < (ncoords - 1))
+					path = path + "L ";
 			}
 			
 		}
@@ -603,43 +604,6 @@ public class IOManager
 	}	// IOManager.geometryToSvgPath
 
 
-	
-
-	/**
-	 * Converts a Coordinate sequence into a SVG path sequence.
-	 * @param coords the coordinates to convert (a Coordinate[]).
-	 * @param env the Envelope we use for the coordinate conversion.
-	 * @param minX, maxX, minY, maxY the maximum coordinates for the
-	 *        SVG coordinates and corresponding to the Envelope env.
-	 * @return a string for use in a SVG path element.
-	 */
-	public static String coordinatesToSvgPath (Coordinate[] coords, Envelope env,
-											double scaleFactor, double minX, double maxX, double minY, double maxY)
-	{
-		String path = "M ";
-		int ncoords = coords.length;
-		if (ncoords == 0) return "";
-		
-		int coordcnt = 0;
-		for (coordcnt = 0; coordcnt < ncoords; coordcnt++)
-		{
-			double x = (coords[coordcnt].x - env.getMinX()) * scaleFactor + minX;
-			double y = ((coords[coordcnt].y - env.getMinY()) / env.getHeight());
-			y = 1.0 - y;
-			y = (y * env.getHeight() * scaleFactor) + minY;
-			path = path + x +" "+ y +" ";
-			
-			if (coordcnt < (ncoords - 1)) {
-				path = path + "L ";
-			}
-		}
-		
-		return path;
-	}
-	
-	
-	
-	
 
 
 
@@ -711,7 +675,7 @@ class SVGFilenameFilter implements FilenameFilter
 /**
  * Dialog window for Shape file error. Normally, in the open layer dialog,
  * there is a filter for Shape files. But M$ does not think it useful...
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2008-05-20
  */
 class OpenLayerErrorDialog extends JDialog

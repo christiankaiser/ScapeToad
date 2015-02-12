@@ -41,7 +41,7 @@ import com.vividsolutions.jump.workbench.model.Layer;
 
 /**
  * The main menu of the ScapeToad application.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 public class MainMenu extends JMenuBar
@@ -106,7 +106,8 @@ public class MainMenu extends JMenuBar
 		
 		
 		// Add a quit menu if we are not on a Mac.
-		// (on a Mac, there is a default quit menu under the program name's menu).
+		// (on a Mac, there is a default quit menu under the program name's
+		// menu).
 		if (System.getProperty("os.name").indexOf("Mac OS") == -1 ||
 			AppContext.DEBUG)
 		{
@@ -139,13 +140,6 @@ public class MainMenu extends JMenuBar
 			KeyEvent.VK_HELP,
 			Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		helpMenu.add(menuHelp_Help);
-		
-		JMenuItem sepMenu3 = new JMenuItem("-");
-		helpMenu.add(sepMenu3);
-		
-		JMenuItem menuHelp_About = new JMenuItem("About...");
-		menuHelp_About.addActionListener(new ActionShowAbout());
-		helpMenu.add(menuHelp_About);
 		
 		this.add(helpMenu);
 	

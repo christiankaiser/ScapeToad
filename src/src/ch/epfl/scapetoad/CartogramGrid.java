@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -23,10 +23,10 @@
 
 package ch.epfl.scapetoad;
 
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.zip.DataFormatException;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
@@ -34,7 +34,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jump.feature.AttributeType;
 import com.vividsolutions.jump.feature.BasicFeature;
@@ -52,7 +51,7 @@ import com.vividsolutions.jump.workbench.model.Layer;
  * all the layers and which is used for the deformation computation.
  * The grid has nodes and cells. Each node has x/y-coordinates, and each
  * cell has a density value.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-30
  */
 public class CartogramGrid
@@ -93,16 +92,6 @@ public class CartogramGrid
 	 */
 	private double mCellSizeX;
 	private double mCellSizeY;
-	
-	
-	/**
-	 * The bias value is a small value bigger than 0 which is added to
-	 * every grid cell in order to avoid computation problems with 0 values.
-	 * Additionally, we will rescale all the values in order to have a minimum
-	 * value of 10 at least.
-	 */
-	public double bias = 0.00001;
-	public double minValue = 10;
 	
 	
 	
@@ -164,27 +153,7 @@ public class CartogramGrid
 	}
 	
 	
-	
-	/**
-	 * Returns the array containing the current densities for the grid.
-	 */
-	public double[][] getCurrentDensityArray ()
-	{
-		return mCellCurrentDensity;
-	}
-	
-	
-	/**
-	 * Returns the cartogram grid size.
-	 */
-	public Size getGridSize ()
-	{
-		return new Size(mGridSizeX, mGridSizeY);
-	}
-	
-	
-	
-	
+
 	/**
 	 * Computes the node coordinates and fills them into the
 	 * nodeX and nodeY arrays.
@@ -233,19 +202,25 @@ public class CartogramGrid
 	 * @param attrIsDensityValue is true if the master attribute is a density
 	 *		  value, and false if it is a population value.
 	 */
-	public void computeOriginalDensityValuesWithLayer (Layer layer, String attrName, boolean attrIsDensityValue)
-	throws InterruptedException, DataFormatException
+	public void computeOriginalDensityValuesWithLayer 
+		(Layer layer, String attrName, boolean attrIsDensityValue)
+	throws InterruptedException
 	{
+	
 		// If the attribute is not a density value, we create a new
 		// attribute for the computed density value.
 		String densityAttrName = attrName;
-		if (!attrIsDensityValue) {
+		if (!attrIsDensityValue)
+		{
 			densityAttrName = attrName + "Density";
-			CartogramLayer.addDensityAttribute(layer, attrName, densityAttrName);
+			
+			CartogramLayer.addDensityAttribute
+				(layer, attrName, densityAttrName);
 		}
 		
 		// Compute the mean density.
-		mMeanDensity = CartogramLayer.meanDensityWithAttribute(layer, densityAttrName);
+		mMeanDensity = 
+			CartogramLayer.meanDensityWithAttribute(layer, densityAttrName);
 		
 		
 		// For each Feature in the layer, we find all grid cells which
@@ -290,68 +265,16 @@ public class CartogramGrid
 				
 			Feature feat = (Feature)featIter.next();
 			
-			this.fillDensityValueWithFeature (feat, densityAttrName);
+			this.fillDensityValueWithFeature
+				(feat, densityAttrName);
 			
 			featCnt++;
 		}
-		
-		
-		// Rescale and the bias value to every cell.
-		this.rescaleValues();
-		this.addBias();
 		
 	
 	}	// CartogramGrid.computeDensityValueWithLayer
 
 
-	
-	
-	/**
-	 * Rescales the density value to have a value of at least this.minValue
-	 * for all non-zero cells.
-	 */
-	public void rescaleValues () {
-		
-		// Find out the smallest non-zero value in the grid.
-		double minval = 0;
-		for (int j = 0; j < (mGridSizeY-1); j++) {
-			for (int i = 0; i < (mGridSizeX-1); i++) {
-				if (mCellCurrentDensity[i][j] > 0.0 && (minval == 0 || minval > mCellCurrentDensity[i][j])) {
-					minval = mCellCurrentDensity[i][j];
-				}
-			}
-		}
-		
-		// Compute the scaling factor
-		if (minval > 0) {
-			double factor = this.minValue / minval;
-			if (factor > 1) {
-				for (int j = 0; j < (mGridSizeY-1); j++) {
-					for (int i = 0; i < (mGridSizeX-1); i++) {
-						mCellCurrentDensity[i][j] *= factor;
-					}
-				}
-			}
-		}
-		
-		
-		
-	}
-	
-	
-	
-	/**
-	 * Adds the bias value to every grid cell.
-	 */
-	public void addBias () {
-		for (int j = 0; j < (mGridSizeY-1); j++) {
-			for (int i = 0; i < (mGridSizeX-1); i++) {
-				mCellCurrentDensity[i][j] += this.bias;
-			}
-		}
-	}
-	
-	
 
 
 	/**
@@ -489,25 +412,19 @@ public class CartogramGrid
 			for (i = minI; i <= maxI; i++)
 			{
 				double minX = this.coordinateXForOriginalCellIndex(i);
-				//double maxX = minX + mCellSizeX;
+				double maxX = minX + mCellSizeX;
 				double minY = this.coordinateYForOriginalCellIndex(j);
-				//double maxY = minY + mCellSizeY;
+				double maxY = minY + mCellSizeY;
 				
-				double midX = minX + (mCellSizeX / 2);
-				double midY = minY + (mCellSizeY / 2);
-				
-				Point cellPt = gf.createPoint(new Coordinate(midX, midY));
-				
-				//Envelope cellEnv = new Envelope(minX, maxX, minY, maxY);
-				//Geometry cellEnvGeom = gf.toGeometry(cellEnv);
-				//if (geom.contains(cellEnvGeom))
-				if (geom.contains(cellPt))
+				Envelope cellEnv = new Envelope(minX, maxX, minY, maxY);
+				Geometry cellEnvGeom = gf.toGeometry(cellEnv);
+				if (geom.contains(cellEnvGeom))
 				{
 					mCellOriginalDensity[i][j] = densityValue;
 					mCellCurrentDensity[i][j] = densityValue;
 					mCellConstrainedDeformation[i][j] = 0;
 				}
-				/*else if (geom.intersects(cellEnvGeom))
+				else if (geom.intersects(cellEnvGeom))
 				{
 					// The cell is not completely inside the geometry.
 					Geometry intersection = geom.intersection(cellEnvGeom);
@@ -532,7 +449,7 @@ public class CartogramGrid
 					// becomes 0.
 					mCellConstrainedDeformation[i][j] = 0;
 						
-				}*/
+				}
 				
 			}
 		}
@@ -1285,18 +1202,12 @@ public class CartogramGrid
 		int i = (int)Math.round(Math.floor(p1x));
 		int j = (int)Math.round(Math.floor(p1y));
 
-		
-		if (i < 0) i = 0;
-		if (i >= mGridSizeX-1) i = mGridSizeX - 2;
-		if (j < 0) j = 0;
-		if (j >= mGridSizeY-1) j = mGridSizeY - 2;
-		
-		/*if (i < 0 || i >= (mGridSizeX-1) || j < 0 || j >= (mGridSizeY-1))
+		if (i < 0 || i >= (mGridSizeX-1) || j < 0 || j >= (mGridSizeY-1))
 		{
 			System.out.println(
 				"[CartogramGrid projectPoint] Coordinate outside bounds.");
 			return null;
-		}*/
+		}
 		
 		double ti = p1x - i;
 		double tj = p1y - j;

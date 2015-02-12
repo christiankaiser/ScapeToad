@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@ package ch.epfl.scapetoad;
 
 /**
  * Contains some static methods for geometrical computations.
- * @author Christian Kaiser <christian@swisscarto.ch"
+ * @author Christian Kaiser <Christian.Kaiser@91nord.com"
  * @version v1.0.0, 2007-11-28
  */
 public class Geometry
@@ -131,14 +131,12 @@ public class Geometry
 				return e;
 			}
     		else
-			{
-				System.out.println("[intersectionOfSegments] The intersection point does not lie on one or both segments.");
+				// The intersection point does not lie on one or both segments
     			return null;
-			}
         }
         else
         {
-			System.out.println("[intersectionOfSegments] The lines are parallel; no intersection.");
+			// The lines are parallel; no intersection
             return null;
         }
 	

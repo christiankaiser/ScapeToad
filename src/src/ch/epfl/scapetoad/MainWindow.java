@@ -73,7 +73,7 @@ import com.vividsolutions.jump.workbench.ui.renderer.RenderingManager;
 
 /**
  * The main window of the ScapeToad application.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 public class MainWindow extends JFrame 
@@ -261,7 +261,7 @@ class MainPanel extends JPanel
 /**
  * This class represents the layer list panel which is located inside
  * the main window (table of contents for the layers).
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 class LayerListPanel extends JPanel
@@ -308,7 +308,7 @@ class LayerListPanel extends JPanel
 /**
  * This class represents the map panel which is located inside
  * the main window.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 class MapPanel extends JPanel
@@ -378,7 +378,7 @@ class MapPanel extends JPanel
 
 /**
  * This class represents the main toolbar at the top of the main window.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-28
  */
 class MainToolbar extends JPanel
@@ -508,7 +508,7 @@ class MainToolbar extends JPanel
 
 /**
  * This class is an action zooming to the full layer extent.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  */
 class ActionZoomToFullExtent extends AbstractAction
 {
@@ -569,7 +569,7 @@ class ActionCreateCartogram extends AbstractAction
 
 /**
  * Dialog window for specifying the layer to export into a Shape file.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2008-05-20
  */
 class ExportShapeFileDialog extends JDialog
@@ -750,7 +750,7 @@ class ExportShapeFileDialogAction extends AbstractAction
 
 /**
  * Dialog window for specifying the layers to export into a SVG file.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2008-05-20
  */
 class ExportSvgFileDialog extends JDialog

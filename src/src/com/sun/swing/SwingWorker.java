@@ -130,10 +130,6 @@ public abstract class SwingWorker {
                 try {
                     setValue(construct());
                 }
-				catch (OutOfMemoryError memEx)
-				{
-					Thread.currentThread().interrupt();
-				}
                 finally {
 					threadVar.clear();
                 }

@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -37,7 +37,7 @@ import com.vividsolutions.jump.workbench.ui.TreeLayerNamePanel;
 
 /**
  * This class is an action performed on a Export as SVG event.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  */
 public class ActionExportAsSvg extends AbstractAction
 {

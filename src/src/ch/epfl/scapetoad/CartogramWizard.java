@@ -1,6 +1,6 @@
 /*
 
-	Copyright 2007-2009 361DEGRES
+	Copyright 2007-2008 91NORD
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License as
@@ -88,7 +88,7 @@ import com.vividsolutions.jump.workbench.model.LayerManager;
 /**
  * The cartogram wizard guiding the user through the process
  * of cartogram creation.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-11-30
  */
 public class CartogramWizard extends JFrame
@@ -137,14 +137,14 @@ public class CartogramWizard extends JFrame
 	Vector mSimultaneousLayers = null;
 	Vector mConstrainedDeformationLayers = null;
 	int mAmountOfDeformation = 50;
-	int mCartogramGridSizeX = 1000;
-	int mCartogramGridSizeY = 1000;
+	int mCartogramGridSizeX = 200;
+	int mCartogramGridSizeY = 200;
 	
 	
 	boolean mAdvancedOptionsEnabled = false;
 	
-	//int mDiffusionGridSize = 128;
-	//int mDiffusionIterations = 3;
+	int mDiffusionGridSize = 128;
+	int mDiffusionIterations = 3;
 	
 	
 	/**
@@ -180,12 +180,6 @@ public class CartogramWizard extends JFrame
 	String mMissingValue = "";
 
 
-	
-	
-	// Interface for bias value.
-	public double bias = 0.000001;
-	
-	
 
 	/**
 	 * The default constructor for the wizard.
@@ -764,6 +758,32 @@ public class CartogramWizard extends JFrame
 	
 	
 	
+	public int getDiffusionGridSize ()
+	{
+		return mDiffusionGridSize;
+	}
+	
+	
+	public void setDiffusionGridSize (int diffusionGridSize)
+	{
+		mDiffusionGridSize = diffusionGridSize;
+	}
+	
+	
+	
+	public int getDiffusionIterations ()
+	{
+		return mDiffusionIterations;
+	}
+	
+	
+	public void setDiffusionIteratations (int iterations)
+	{
+		mDiffusionIterations = iterations;
+	}
+	
+	
+	
 	/**
 	 * Defines whether the advances options should be taken into account.
 	 * @param enabled true if the advanced options should be taken into 
@@ -842,7 +862,7 @@ public class CartogramWizard extends JFrame
  * a size of 97 x 152 pixels. It is used to be displayed in the
  * different wizard steps. The panel is always located at the left
  * side of the wizard window.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class ScapeToadIconPanel extends JPanel
@@ -889,7 +909,7 @@ class ScapeToadIconPanel extends JPanel
 /**
  * This class represents the overall cartogram wizard title for
  * all wizard steps.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardTitlePanel extends JPanel
@@ -1032,7 +1052,7 @@ class WizardStepIconPanel extends JPanel
  * This class represents the first screen in the cartogram wizard.
  * It contains general information on cartograms and on the steps
  * needed in cartogram creation.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardPanelZero extends JPanel implements HyperlinkListener
@@ -1052,8 +1072,8 @@ class CartogramWizardPanelZero extends JPanel implements HyperlinkListener
 				
 		// Add the Next button
 		JButton nextButton = new JButton("Next >");
-		nextButton.setLocation(320, 314);
-		nextButton.setSize(120, 26);
+		nextButton.setLocation(340, 314);
+		nextButton.setSize(100, 26);
 		nextButton.setMnemonic(KeyEvent.VK_ENTER);
 		
 		nextButton.addActionListener(new 
@@ -1128,7 +1148,7 @@ class CartogramWizardPanelZero extends JPanel implements HyperlinkListener
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/a-cartogram-creation.php"));
+			"http://chorogram.choros.ch/scapetoad/help/a-cartogram-creation.php"));
 		
 		this.add(helpButton);
 		
@@ -1173,7 +1193,7 @@ class CartogramWizardPanelZero extends JPanel implements HyperlinkListener
 /**
  * This class represents the first screen in the cartogram wizard.
  * It contains a pop-up menu for selecting the master layer.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardPanelOne extends JPanel
@@ -1209,8 +1229,8 @@ class CartogramWizardPanelOne extends JPanel
 		
 		// Add the Next button
 		mNextButton = new JButton("Next >");
-		mNextButton.setLocation(320, 314);
-		mNextButton.setSize(120, 26);
+		mNextButton.setLocation(340, 314);
+		mNextButton.setSize(100, 26);
 		mNextButton.setMnemonic(KeyEvent.VK_ACCEPT);
 		
 		mNextButton.addActionListener(new
@@ -1221,8 +1241,8 @@ class CartogramWizardPanelOne extends JPanel
 		
 		// Add the Back button
 		JButton backButton = new JButton("< Back");
-		backButton.setLocation(195, 314);
-		backButton.setSize(120, 26);
+		backButton.setLocation(235, 314);
+		backButton.setSize(100, 26);
 		
 		backButton.addActionListener(new
 			CartogramWizardGoToStepAction(mCartogramWizard, 0));
@@ -1357,7 +1377,7 @@ class CartogramWizardPanelOne extends JPanel
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/a-cartogram-creation.php#cartogram-layer"));
+			"http://chorogram.choros.ch/scapetoad/help/a-cartogram-creation.php#cartogram-layer"));
 		
 		this.add(helpButton);
 		
@@ -1457,7 +1477,7 @@ class CartogramWizardPanelOne extends JPanel
 /**
  * This class represents the third screen in the cartogram wizard.
  * It is used for the selection of cartogram attribute.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardPanelTwo extends JPanel implements HyperlinkListener
@@ -1498,8 +1518,8 @@ class CartogramWizardPanelTwo extends JPanel implements HyperlinkListener
 				
 		// Add the Next button
 		mNextButton = new JButton("Next >");
-		mNextButton.setLocation(320, 314);
-		mNextButton.setSize(120, 26);
+		mNextButton.setLocation(340, 314);
+		mNextButton.setSize(100, 26);
 		mNextButton.setMnemonic(KeyEvent.VK_ACCEPT);
 		
 		mNextButton.addActionListener(new
@@ -1509,8 +1529,8 @@ class CartogramWizardPanelTwo extends JPanel implements HyperlinkListener
 		
 		// Add the Back button
 		JButton backButton = new JButton("< Back");
-		backButton.setLocation(195, 314);
-		backButton.setSize(120, 26);
+		backButton.setLocation(235, 314);
+		backButton.setSize(100, 26);
 		
 		backButton.addActionListener(new
 			CartogramWizardGoToStepAction((CartogramWizard)contentFrame, 1));
@@ -1736,7 +1756,7 @@ class CartogramWizardPanelTwo extends JPanel implements HyperlinkListener
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/a-cartogram-creation.php#cartogram-attribute"));
+			"http://chorogram.choros.ch/scapetoad/help/a-cartogram-creation.php#cartogram-attribute"));
 		
 		this.add(helpButton);
 
@@ -2000,8 +2020,8 @@ class CartogramWizardPanelThree extends JPanel
 		
 		// Add the Next button
 		JButton computeButton = new JButton("Next >");
-		computeButton.setLocation(320, 314);
-		computeButton.setSize(120, 26);
+		computeButton.setLocation(340, 314);
+		computeButton.setSize(100, 26);
 		computeButton.setMnemonic(KeyEvent.VK_ENTER);
 		computeButton.addActionListener(new 
 			CartogramWizardGoToStepAction((CartogramWizard)contentFrame, 4));
@@ -2011,8 +2031,8 @@ class CartogramWizardPanelThree extends JPanel
 		
 		// Add the Back button
 		JButton backButton = new JButton("< Back");
-		backButton.setLocation(195, 314);
-		backButton.setSize(120, 26);
+		backButton.setLocation(235, 314);
+		backButton.setSize(100, 26);
 		backButton.addActionListener(new
 			CartogramWizardGoToStepAction((CartogramWizard)contentFrame, 2));
 		this.add(backButton);
@@ -2057,7 +2077,7 @@ class CartogramWizardPanelThree extends JPanel
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/b-other-layers.php"));
+			"http://chorogram.choros.ch/scapetoad/help/b-other-layers.php"));
 		
 		this.add(helpButton);
 
@@ -2227,8 +2247,8 @@ class CartogramWizardPanelFour extends JPanel
 		
 		// Add the Compute button
 		JButton computeButton = new JButton("Compute");
-		computeButton.setLocation(320, 314);
-		computeButton.setSize(120, 26);
+		computeButton.setLocation(340, 314);
+		computeButton.setSize(100, 26);
 		computeButton.setMnemonic(KeyEvent.VK_ENTER);
 		computeButton.addActionListener(new 
 			CartogramWizardComputeAction((CartogramWizard)contentFrame));
@@ -2238,8 +2258,8 @@ class CartogramWizardPanelFour extends JPanel
 		
 		// Add the Back button
 		JButton backButton = new JButton("< Back");
-		backButton.setLocation(195, 314);
-		backButton.setSize(120, 26);
+		backButton.setLocation(235, 314);
+		backButton.setSize(100, 26);
 		backButton.addActionListener(new
 			CartogramWizardGoToStepAction((CartogramWizard)contentFrame, 3));
 		this.add(backButton);
@@ -2267,7 +2287,7 @@ class CartogramWizardPanelFour extends JPanel
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/c-transformation-parameters.php"));
+			"http://chorogram.choros.ch/scapetoad/help/c-transformation-parameters.php"));
 		
 		this.add(helpButton);
 
@@ -2328,7 +2348,7 @@ class CartogramWizardPanelFour extends JPanel
  * This class represents the panel shown during the cartogram computation.
  * It shows a progress bar and a label explaining the advances in the
  * computation.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardRunningPanel extends JPanel
@@ -2535,7 +2555,7 @@ class CartogramWizardFinishedPanel extends JPanel
 		mHelpButton.setBorderPainted(false);
 		
 		mHelpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/d-computation-report.php"));
+			"http://chorogram.choros.ch/scapetoad/help/d-computation-report.php"));
 
 
 
@@ -2689,7 +2709,7 @@ class CartogramWizardFinishedPanel extends JPanel
 
 /**
  * This class moves the wizard from the given step.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardGoToStepAction extends AbstractAction
@@ -2728,7 +2748,7 @@ class CartogramWizardGoToStepAction extends AbstractAction
 
 /**
  * This class closes the cartogram wizard.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2008-02-12
  */
 class CartogramWizardCloseAction extends AbstractAction
@@ -2762,7 +2782,7 @@ class CartogramWizardCloseAction extends AbstractAction
 
 /**
  * This class launches the cartogram computation process.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-12-01
  */
 class CartogramWizardComputeAction extends AbstractAction
@@ -2838,11 +2858,10 @@ class CartogramWizardComputeAction extends AbstractAction
 			
 		cg.setGridSize(mCartogramWizard.getCartogramGridSizeInX(),
 			mCartogramWizard.getCartogramGridSizeInY());
+			
+		cg.setDiffusionGridSize(mCartogramWizard.getDiffusionGridSize());
+		cg.setDiffusionIterations(mCartogramWizard.getDiffusionIterations());
 		
-		if (mCartogramWizard.getAdvancedOptionsEnabled())
-			cg.bias = mCartogramWizard.bias;
-		else
-			cg.bias = 0.000001;
 		
 		
 		// Set the parameters for the deformation grid layer.
@@ -2887,7 +2906,7 @@ class CartogramWizardComputeAction extends AbstractAction
  *  -- the cartogram grid size
  *  -- the number of iterations for the Gastner algorithm
  *  -- the size of the Gastner grid size
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-02-01
  */
 class CartogramWizardOptionsWindow extends JDialog 
@@ -2924,9 +2943,6 @@ class CartogramWizardOptionsWindow extends JDialog
 	JTextPane mIterPane = null;
 	JLabel mIterationsLabel = null;
 	
-	JTextPane mBiasPane = null;
-	JLabel mBiasLabel = null;
-	JTextField mBiasTextField = null;
 	
 
 
@@ -2939,7 +2955,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		// Set the window parameters.
 		this.setTitle("Advanced options");
 			
-		this.setSize(500, 530);
+		this.setSize(500, 580);
 		this.setLocation(40, 50);
 		this.setResizable(false);
 		this.setLayout(null);
@@ -3066,7 +3082,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		mManualParametersPane.addHyperlinkListener(this);
 		mManualParametersPane.setBackground(null);
 		mManualParametersPane.setLocation(45, 170);
-		mManualParametersPane.setSize(400, 60);
+		mManualParametersPane.setSize(400, 30);
 		mManualParametersPane.setEnabled(mAdvancedOptionsCheckBox.isSelected());
 		this.add(mManualParametersPane);
 		
@@ -3098,7 +3114,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		mGrid1Pane.setEditable(false);
 		mGrid1Pane.addHyperlinkListener(this);
 		mGrid1Pane.setBackground(null);
-		mGrid1Pane.setLocation(45, 240);
+		mGrid1Pane.setLocation(45, 210);
 		mGrid1Pane.setSize(400, 60);
 		mGrid1Pane.setEnabled(mAdvancedOptionsCheckBox.isSelected());
 		this.add(mGrid1Pane);
@@ -3113,7 +3129,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		mCartogramGridSizeLabel = 
 			new JLabel("Enter the number of grid rows:");
 			
-		mCartogramGridSizeLabel.setLocation(45, 300);
+		mCartogramGridSizeLabel.setLocation(45, 270);
 		mCartogramGridSizeLabel.setSize(170, 26);
 		mCartogramGridSizeLabel.setFont(new Font(null, Font.PLAIN, 11));
 		mCartogramGridSizeLabel.setEnabled(
@@ -3125,7 +3141,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		int cgGridSize = Math.max(cgGridSizeX, cgGridSizeY);
 		String cgGridSizeString = "" + cgGridSize;
 		mCartogramGridSizeTextField = new JTextField(cgGridSizeString);
-		mCartogramGridSizeTextField.setLocation(240, 300);
+		mCartogramGridSizeTextField.setLocation(240, 270);
 		mCartogramGridSizeTextField.setSize(50, 26);
 		mCartogramGridSizeTextField.setFont(new Font(null, Font.PLAIN, 11));
 		mCartogramGridSizeTextField.setHorizontalAlignment(JTextField.RIGHT);
@@ -3136,13 +3152,13 @@ class CartogramWizardOptionsWindow extends JDialog
 		
 		
 		
-		
-		// Bias text
-		mBiasPane = new JTextPane();
-		String biasText = null;
+		// Grid 2 text
+		mGrid2Pane = new JTextPane();
+		String grid2Text = null;
 		try
 		{
-			InputStream inStream = cldr.getResource("BiasText.html").openStream();
+			InputStream inStream = 
+				cldr.getResource("Grid2Text.html").openStream();
 			StringBuffer inBuffer = new StringBuffer();
 			int c;
 			while ((c = inStream.read()) != -1)
@@ -3150,40 +3166,108 @@ class CartogramWizardOptionsWindow extends JDialog
 				inBuffer.append((char)c);
 			}
 			inStream.close();
-			biasText = inBuffer.toString();
+			grid2Text = inBuffer.toString();
 		} 
 		catch (Exception e) 
 		{
 			e.printStackTrace(); 
 		}
-		mBiasPane.setContentType("text/html");
-		mBiasPane.setText(biasText);
-		mBiasPane.setEditable(false);
-		mBiasPane.addHyperlinkListener(this);
-		mBiasPane.setBackground(null);
-		mBiasPane.setLocation(45, 360);
-		mBiasPane.setSize(400, 40);
-		mBiasPane.setEnabled(mAdvancedOptionsCheckBox.isSelected());
-		this.add(mBiasPane);
+		mGrid2Pane.setContentType("text/html");
+		mGrid2Pane.setText(grid2Text);
+		mGrid2Pane.setEditable(false);
+		mGrid2Pane.addHyperlinkListener(this);
+		mGrid2Pane.setBackground(null);
+		mGrid2Pane.setLocation(45, 315);
+		mGrid2Pane.setSize(400, 50);
+		mGrid2Pane.setEnabled(mAdvancedOptionsCheckBox.isSelected());
+		this.add(mGrid2Pane);
+		
+		
+		
+		
+		// Diffusion grid size
+		mDiffusionGridSizeLabel = new JLabel("Diffusion grid size:");
+		mDiffusionGridSizeLabel.setLocation(45, 365);
+		mDiffusionGridSizeLabel.setSize(170, 26);
+		mDiffusionGridSizeLabel.setFont(new Font(null, Font.PLAIN, 11));
+		mDiffusionGridSizeLabel.setEnabled(
+			mAdvancedOptionsCheckBox.isSelected());
+		this.add(mDiffusionGridSizeLabel);
+		
+		mDiffusionGridMenu = new JComboBox();
+		mDiffusionGridMenu.setBounds(240, 365, 100, 26);
+		mDiffusionGridMenu.setFont(new Font(null, Font.PLAIN, 11));
+		mDiffusionGridMenu.setEnabled(mAdvancedOptionsCheckBox.isSelected());
+		mDiffusionGridMenu.addItem("64");
+		mDiffusionGridMenu.addItem("128");
+		mDiffusionGridMenu.addItem("256");
+		mDiffusionGridMenu.addItem("512");
+		mDiffusionGridMenu.addItem("1024");
+		
+		String strGridSize = 
+			"" + AppContext.cartogramWizard.getDiffusionGridSize();
+			
+		mDiffusionGridMenu.setSelectedItem(strGridSize);
+		
+		this.add(mDiffusionGridMenu);
+		
+		
+		
+		
+		// Iterations text
+		mIterPane = new JTextPane();
+		String iterText = null;
+		try
+		{
+			InputStream inStream = 
+				cldr.getResource("GastnerIterationsText.html").openStream();
+			StringBuffer inBuffer = new StringBuffer();
+			int c;
+			while ((c = inStream.read()) != -1)
+			{
+				inBuffer.append((char)c);
+			}
+			inStream.close();
+			iterText = inBuffer.toString();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace(); 
+		}
+		mIterPane.setContentType("text/html");
+		mIterPane.setText(iterText);
+		mIterPane.setEditable(false);
+		mIterPane.addHyperlinkListener(this);
+		mIterPane.setBackground(null);
+		mIterPane.setLocation(45, 405);
+		mIterPane.setSize(400, 45);
+		mIterPane.setEnabled(mAdvancedOptionsCheckBox.isSelected());
+		this.add(mIterPane);
+		
+		
+		
+		
+		
+		
+		// Iterations of diffusion algorithm
+		mIterationsLabel = 
+			new JLabel("Enter the number of iterations:");
+			
+		mIterationsLabel.setLocation(45, 450);
+		mIterationsLabel.setSize(190, 26);
+		mIterationsLabel.setFont(new Font(null, Font.PLAIN, 11));
+		mIterationsLabel.setEnabled(mAdvancedOptionsCheckBox.isSelected());
+		this.add(mIterationsLabel);
 
-		
-		// Bias label
-		mBiasLabel = new JLabel("Bias value:");
-		mBiasLabel.setLocation(45, 400);
-		mBiasLabel.setSize(170, 26);
-		mBiasLabel.setFont(new Font(null, Font.PLAIN, 11));
-		mBiasLabel.setEnabled(mAdvancedOptionsCheckBox.isSelected());
-		this.add(mBiasLabel);
-		
-		// Bias text field
-		mBiasTextField = new JTextField(new Double(AppContext.cartogramWizard.bias).toString());
-		mBiasTextField.setLocation(190, 400);
-		mBiasTextField.setSize(100, 26);
-		mBiasTextField.setFont(new Font(null, Font.PLAIN, 11));
-		mBiasTextField.setHorizontalAlignment(JTextField.RIGHT);
-		mBiasTextField.setEnabled(mAdvancedOptionsCheckBox.isSelected());
-		this.add(mBiasTextField);
-		
+		mDiffusionIterationsTextField = new JTextField(
+			"" + AppContext.cartogramWizard.getDiffusionIterations());
+		mDiffusionIterationsTextField.setLocation(240, 450);
+		mDiffusionIterationsTextField.setSize(50, 26);
+		mDiffusionIterationsTextField.setFont(new Font(null, Font.PLAIN, 11));
+		mDiffusionIterationsTextField.setHorizontalAlignment(JTextField.RIGHT);
+		mDiffusionIterationsTextField.setEnabled(
+			mAdvancedOptionsCheckBox.isSelected());
+		this.add(mDiffusionIterationsTextField);
 		
 		
 		
@@ -3192,7 +3276,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		
 		// Cancel button
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setLocation(270, 460);
+		cancelButton.setLocation(270, 510);
 		cancelButton.setSize(100, 26);
 		
 		cancelButton.addActionListener(new 
@@ -3204,7 +3288,7 @@ class CartogramWizardOptionsWindow extends JDialog
 		
 		// Ok button
 		JButton okButton = new JButton("OK");
-		okButton.setLocation(380, 460);
+		okButton.setLocation(380, 510);
 		okButton.setSize(100, 26);
 		
 		okButton.addActionListener(new 
@@ -3227,13 +3311,13 @@ class CartogramWizardOptionsWindow extends JDialog
 		helpButton.setVerticalTextPosition(AbstractButton.BOTTOM);
 		helpButton.setHorizontalTextPosition(AbstractButton.CENTER);
 		helpButton.setSize(30, 30);
-		helpButton.setLocation(20, 460);
+		helpButton.setLocation(20, 510);
 		helpButton.setFocusable(false);
 		helpButton.setContentAreaFilled(false);
 		helpButton.setBorderPainted(false);
 		
 		helpButton.addActionListener(new CartogramWizardShowURL(
-			"http://scapetoad.choros.ch/help/c-transformation-parameters.php#advanced-options"));
+			"http://chorogram.choros.ch/scapetoad/help/c-transformation-parameters.php#advanced-options"));
 		
 		this.add(helpButton);
 
@@ -3244,9 +3328,6 @@ class CartogramWizardOptionsWindow extends JDialog
 
 
 
-	
-	
-	
 
 
 	/**
@@ -3288,15 +3369,36 @@ class CartogramWizardOptionsWindow extends JDialog
 		}
 		
 		
+		
+		
 		try
 		{
-			String biasString = mBiasTextField.getText();
-			Double biasDbl = new Double(biasString);
-			AppContext.cartogramWizard.bias = biasDbl.doubleValue();
+			String diffusionGridSizeString = 
+				(String)mDiffusionGridMenu.getSelectedItem();
+			
+			Integer diffusionGridSizeInt = new Integer(diffusionGridSizeString);
+			
+			AppContext.cartogramWizard.setDiffusionGridSize(
+				diffusionGridSizeInt);
 		}
 		catch (NumberFormatException e3)
 		{
 		}
+		
+		
+		
+		
+		try
+		{
+			String iterationsString = mDiffusionIterationsTextField.getText();
+			Integer iterationsInt = new Integer(iterationsString);
+			AppContext.cartogramWizard.setDiffusionIteratations(
+				iterationsInt.intValue());
+		}
+		catch (NumberFormatException e4)
+		{
+		}
+		
 		
 		
 	
@@ -3338,9 +3440,12 @@ class CartogramWizardOptionsWindow extends JDialog
 		mGrid1Pane.setEnabled(enabled);
 		mCartogramGridSizeLabel.setEnabled(enabled);
 		mCartogramGridSizeTextField.setEnabled(enabled);
-		mBiasPane.setEnabled(enabled);
-		mBiasLabel.setEnabled(enabled);
-		mBiasTextField.setEnabled(enabled);
+		mGrid2Pane.setEnabled(enabled);
+		mDiffusionGridSizeLabel.setEnabled(enabled);
+		mDiffusionGridMenu.setEnabled(enabled);
+		mIterPane.setEnabled(enabled);
+		mIterationsLabel.setEnabled(enabled);
+		mDiffusionIterationsTextField.setEnabled(enabled);
 	
 	}	// CartogramWizardOptionsWindow
 
@@ -3556,7 +3661,7 @@ class CartogramWizardWindowListener implements WindowListener
 
 /**
  * Dialog window for specifying the simultaneous deformation layers.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-02-01
  */
 class CartogramWizardSimulaneousLayerWindow extends JDialog
@@ -3839,7 +3944,7 @@ class CartogramWizardSimulaneousLayerAction extends AbstractAction
 
 /**
  * Dialog window for specifying the constrained transformation layers.
- * @author christian@swisscarto.ch
+ * @author Christian.Kaiser@91nord.com
  * @version v1.0.0, 2007-02-01
  */
 class CartogramWizardConstrainedLayerWindow extends JDialog
