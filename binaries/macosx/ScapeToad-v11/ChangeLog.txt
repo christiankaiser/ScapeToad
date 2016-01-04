@@ -1,0 +1,52 @@
+ScapeToad Change Log
+
+
+
+
+What's new in version 1.1 ?
+===========================
+
+-- Issues with the advanced options dialog solved.
+
+-- Links to help files fixed.
+
+-- Explanatory text in advanced options dialog now completely 
+   visible also on Windows.
+
+-- Empty folders in the layer view are now removed automatically
+
+-- After the cartogram computation process, there is a "End" button
+   rather than a "Cancel" button.
+
+-- A problem with the Density and SizeError attributes in the
+   cartogram layer has been solved.
+
+-- Improved size legend.
+
+-- The size legend labels are now exported into the SVG file.
+
+-- There is now a window with a size error legend. A click on the
+   legend shows the size error help on the ScapeToad homepage.
+
+-- After the cartogram computation, previously visible layers
+   are hidden in order to see immediately the resulting cartogram.
+
+-- Improved Shapefile export function. There is now a dialog with
+   a popup menu asking  which layer to export. There is also
+   a new toolbar button for Shapefile export.
+
+-- Improved SVG export function. There is now a dialog with a list
+   of all layers asking which layers to include in the SVG file.
+   There is also a new toolbar button for SVG export.
+
+-- An error with the transformation layer and constrained deformation
+   layer dialog has been corrected. The selection is now remembered
+   each time.
+
+-- The list of the simultaneously transformed layers and the
+   constrained defomration layers is now included in the computation
+   report.
+
+-- An error message appears now if the user does not select a Shape
+   file during the open layer process.
+
