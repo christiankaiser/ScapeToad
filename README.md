@@ -18,30 +18,20 @@ ScapeToad is an open-source project released under the GNU Public License. You c
 
 ScapeToad is a Java application and can be used on any computer with an installed Java Virtual Machine.
 
-Additionnaly, we also have released a separate binary for Windows packaged into an EXE file.
-
-For instructions how to install and run the programm, see below.
 
 
 ## Compilation
 
 Unless you want to modify ScapeToad, there is no need for compilation. However, if you want to make changes, the compile process should be straightforward by using Ant. With Ant installed, simply cd to the src directory and run ant. Resulting JAR file will be in dist directory.
 
-There is also a jsmooth project file inside win directory for creating a Windows 
-executable using JSmooth (http://jsmooth.sourceforge.net/).
-
 
 ## Install and run ScapeToad
 
-__Windows__: Just drag the ScapeToad.exe file inside the Windows folder on your hard drive. Normally, programs should be installed into the Program files folder on the C: drive, but this is not a pre-requisite for running ScapeToad.
+ScapeToad is a multi-platform Java programm. Download the file ScapeToad-vXX.tgz located in dist to your drive and decompress the file. On most platforms, you can probably just double-click on the JAR file.
 
-__Other platforms, including macOS and Linux__: Use the multi-platform JAR file in the Unix folder. Just copy the file ScapeToad-vXX.tgz located in binaries/jvm to your drive, and decompress the file. After, open your Terminal, and launch the JAR file like this:
+It is also possible to run ScapeToad from your Terminal like this:
 
 	java -Xmx512m -jar /your/install/folder/ScapeToad.jar
-
-Usually, you don't need to type the whole path to your ScapeToad.jar file. Instead, simply drag the ScapeToad.jar file onto the Terminal window.
-
-There is also a launch script (ScapeToad.sh) if you prefer that one.
 
 
 ## Contribute
