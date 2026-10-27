@@ -3,7 +3,7 @@
 > **A note on the current version.** The ScapeToad you find here is showing its age: it was written many years ago and has not kept pace with modern Java and operating systems. It still does its job, but a complete rewrite is underway to bring cartogram creation up to date. Please check back later for news. In the meantime, bug reports and feedback are very welcome as [GitHub issues](https://github.com/christiankaiser/ScapeToad/issues).
 
 
-ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a transformed map where the polygons are proportional to the value of a given statistical variable, e.g. the population. More information is available on the project web site at [scapetoad.choros.place](http://scapetoad.choros.place) or on the Github project site.
+ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a transformed map where the polygons are proportional to the value of a given statistical variable, e.g. the population. More information is available on the [project web site](https://christiankaiser.github.io/ScapeToad/).
 
 
 ## Requirements
