@@ -1,5 +1,7 @@
 # Welcome to ScapeToad
 
+> **A note on the current version.** The ScapeToad you find here is showing its age: it was written many years ago and has not kept pace with modern Java and operating systems. It still does its job, but a complete rewrite is underway to bring cartogram creation up to date. Please check back later for news. In the meantime, bug reports and feedback are very welcome as [GitHub issues](https://github.com/christiankaiser/ScapeToad/issues).
+
 
 ScapeToad is an easy to use Java application for cartogram creation. A cartogram is a transformed map where the polygons are proportional to the value of a given statistical variable, e.g. the population. More information is available on the project web site at [scapetoad.choros.place](http://scapetoad.choros.place) or on the Github project site.
 
@@ -25,7 +27,7 @@ ScapeToad is a Java application and can be used on any computer with an installe
 Unless you want to modify ScapeToad, there is no need for compilation. However, if you want to make changes, the compile process should be straightforward by using Ant. With Ant installed, simply cd to the src directory and run ant. Resulting JAR file will be in dist directory.
 
 
-## Install and run ScapeToad
+## Install and run ScapeToad
 
 ScapeToad is a multi-platform Java programm. Download the file ScapeToad-vXX.tgz located in dist to your drive and decompress the file. On most platforms, you can probably just double-click on the JAR file.
 
@@ -36,6 +38,4 @@ It is also possible to run ScapeToad from your Terminal like this:
 
 ## Contribute
 
-You are welcome to make contributions to ScapeToad. Simply fork the repo and send your pull request. 
- 
- 
+You are welcome to make contributions to ScapeToad. Simply fork the repo and send your pull request.

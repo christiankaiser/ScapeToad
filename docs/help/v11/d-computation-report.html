@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ScapeToad Help : Le rapport du traitement</title>
+	<link href="../../chorogram.css" rel="stylesheet" />
+<link rel="icon" href="../../images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="../../images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="../../index.html">main page</a></li>
+			<li><a href="../../example.html">example</a></li>
+			<li><a href="../../download.html">download</a></li>
+			<li><a href="../v11/index.html">help</a></li>
+			<li><a href="../../faq.html">f.a.q.</a></li>
+			<li><a href="../../credits.html">credits</a></li>
+			<li><a href="../../contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">	
+	<h1>IV - Computation report</h1>
+	
+	
+	<p>The  <a href="images/wizard-step-6.png" class="picShow">last step</a> of the wizard is computation report, composed of 3 parts:
+		<ul>
+			<li><a href="images/report-cartogram-parameters.png" class="picShow">Cartogram parameters</a></li>
+			<li><a href="images/report-cartogram-statistics.png" class="picShow">Cartogram layer &amp; attribute statistics</a></li>
+			<li><a href="images/report-cartogram-error.png" class="picShow">Cartogram error</a></li>
+		</ul>
+	</p>
+	
+	
+	
+	<a id="cartogram-parameters"></a>
+	<h2>1 - Cartogram parameters</h2>
+	
+	<p>Lists user set and automatic parameters used for the transformation:
+		<ul>
+			
+			<li><strong>Cartogram layer: </strong>Name of the user-chosen transformed layer.</li>
+			
+			<li><strong>Cartogram attribute: </strong>User-set variable determining the size of the cartogram.</li>
+			
+			<li><strong>Attribute type: </strong>Type of the statistical variable used in step 3.</li>
+			
+			<li><strong>Transformation quality:</strong> User-set (slider) general transformation quality, varying between 0 (low quality) and 100 (high quality).</li>
+			
+			<li><strong>Cartogram grid size: </strong>Grid size used to seize the global transformation, defined automatically or user-set in the advanced options.   (<em>see also </em> <a href="c-transformation-parameters.html#grid-1">Advanced options – first grid</a>)</li>
+			
+			<li><strong>Diffusion grid size: </strong>Size of the grid used by the Gassner/Newmann diffusion algorithm, defined automatically or user-set in the advanced options. (<em>see also </em> <a href="c-transformation-parameters.html#grid-2">Advanced options – second grid</a>).</li>
+			
+			<li><strong>Diffusion iterations: </strong>Number of runs of the Gassner/Newmann diffusion algorithm, defined automatically or user-set in the advanced options. (<em>see also </em> <a href="c-transformation-parameters.html#iterations">Advanced options – number of iterations</a>).</li>
+		</ul>
+	</p>
+	
+	
+	
+	<a id="cartogram-statistics"></a>
+	<h2>2 - Cartogram layer &amp; attribute statistics</h2>
+	
+	<p>Statistics pertaining to the main polygon layer and to the transformation variable: 
+		<ul>
+			<li><strong>Number of features: </strong>Number of polygons on the main polygon layer.</li>
+			<li><strong>Attribute mean value: </strong>Arithmetic mean of the user-chosen statistical variable.</li>
+			<li><strong>Attribute minimum value: </strong>Minimal value of the statistical transformation variable. N.B.: Negative values are not allowed. Zero values (which would induce a division-by-zero error in the algorithm) are automatically replaced by very small non-zero values. </li>
+			
+			<li><strong>Attribute maximum value: </strong>Maximum value of the user-chosen statistical variable.</li>
+		</ul>
+	</p>
+	
+	
+	
+	
+	
+	<a id="cartogram-error"></a>
+	<h2>3 - Cartogram error indicators</h2>
+	
+	
+	<p>The third part of the log shows several indicators evaluating the quality of the produced cartogram.     
+	<p><strong><em>A</em><sub>th</sub>/<em>A</em></strong> is determined for each cartogram polygon, where <em>A</em><sub>th</sub> is the theoretical area that the polygon should have to be proportional to its value of the statistical variable, and where <em>A</em> is its effective area.    Expressed in %, the result can  be interpreted as follows:
+	  <ul>
+			<li>A value inferior to 100% means that the polygon is larger than it should be. <em>E.g.</em> the area of a feature with an <em>A</em><sub>th</sub>/<em>A</em> value of 80% should be reduced by 20% to be exactly proportional to its value of the statistical variable. [1.00/1.25&nbsp;=&nbsp;0.80 ; 1.00/(1.25-0.20×1.25)&nbsp;=&nbsp;1.00]</li>
+			
+			<li>A value superior to 100% mans that the polygon is smaller than it should be. <em>E.g.</em> the area of a feature with an <em>A</em><sub>th</sub>/<em>A</em> value of 120% should be reduced by 20% to be exactly proportional to its value of the statistical variable.</li>
+		</ul>
+	The </p>
+	<em>A</em><sub>th</sub>/<em>A</em> indice is calculated individually for each polygon. Four global indices of overall cartogram quality are shown in the log output: 
+		
+		<ul>
+			<li><strong>Mean cartogram error: </strong>Arithmetic average of the<em>A</em><sub>th</sub>/<em>A</em>  indicator for all features.</li>
+			
+			<li><strong>Standard deviation: </strong>Standard deviation of the <em>A</em><sub>th</sub>/<em>A</em> indicator for all features.</li>
+			
+			<li>For percentile calculation, features have been ordered by their <em>A</em><sub>th</sub>/<em>A</em> values. The  log shows the following percentiles: 
+			  <ul>
+			    <li><strong>25th percentile: </strong>25% of the features have an <em>A</em><sub>th</sub>/<em>A</em> value inferior to this number.</li>
+			    <li><strong>50th percentile (or median): </strong>50% of the features have an <em>A</em><sub>th</sub>/<em>A</em> value inferior to this number.</li>
+			    <li><strong>75th percentile: </strong>50% of the features have an <em>A</em><sub>th</sub>/<em>A</em> value inferior to this number.</li>
+			  </ul>
+			</li>
+			<li><strong>Features with mean error +/- 1 standard deviation: </strong>Number of features with an <em>A</em><sub>th</sub>/<em>A</em> diverging form average error by less than one standard deviation.		</li>
+			<li><strong>Computation time</strong>: Difference between computation start-time and computation end-time.</li>
+		</ul>
+     See the<a href="e-interpretation.html"> following chapter for interpretation guidelines of these indicators</a>.
+	</p>
+
+<!-- help navigation -->
+<div style="margin-top:40px;"><div style="position:absolute; text-align:left;"><a href="c-transformation-parameters.html">&lt; Previous help chapter</a></div> 
+<div style="position:absolute; right:40px;"><a href="e-interpretation.html">Next help chapter &gt;</a></div>
+</div>
+     </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>

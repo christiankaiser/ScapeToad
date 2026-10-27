@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ScapeToad Help : Les paramètres de la transformation</title>
+	<link href="../../chorogram.css" rel="stylesheet" />
+<link rel="icon" href="../../images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="../../images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="../../index.html">main page</a></li>
+			<li><a href="../../example.html">example</a></li>
+			<li><a href="../../download.html">download</a></li>
+			<li><a href="../v11/index.html">help</a></li>
+			<li><a href="../../faq.html">f.a.q.</a></li>
+			<li><a href="../../credits.html">credits</a></li>
+			<li><a href="../../contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">
+	
+	<h1>III - Transformation parameters</h1>
+	
+	
+	<p><a href="images/wizard-step-5.png" class="picShow">Step 5</a> of the wizard gives access to the quality settings of the transformation. Two setting-specification modules are available:
+		<ul>
+			<li>Un <a href="images/advanced-options-button.png" class="picShow">an <q>advanced options</q> button</a> gives access to four specific transformation parameters.</li>
+ 			<li>A <a href="images/quality-slider.png" class="picShow">slider</a> can be used to set a general transformation quality, from low to high.</li>
+		</ul>
+	</p>
+	
+	
+	
+	<a id="advanced-options"></a>
+	<h2>1 - The advanced options</h2>
+	
+	<p><a href="images/advanced-options.png" class="picShow">Wizard step 5:  <q>Advanced options...</q></a></p>
+	
+	<p>The construction algorithm applies two successive grids on the polygon layer. It is possible to run the algorithm several times. Moreover, in order to have a better idea of the transformation that has been done, a layer containing the visual representation of the transformation grid can be created and included in the output. </p>
+	
+	
+	<a id="grid-layer"></a>
+	<h3>i - The grid layer</h3>
+	
+	<p>The <a href="images/transformation-grid.png" class="picShow">grid layer</a> contains a rectangular grid that is not used by the algorithm but constitutes only a visual aid for cartogram interpretation. The regularity of grid cell sizes allows you to estimate the importance of the transformation in comparison to the original polygon layer. </p>
+	<p>For this option to work, the number of cells on the larger side of the rectangle grid must be specified. </p>
+
+	
+	
+	<a id="grid-1"></a>
+	<h3>ii - The first grid</h3>
+	
+	<p>The <a href="images/grid-1.png" class="picShow">first grid</a> used by the  cartogram algorithm is applied to the polygon layer. All calculations are executed on this first grid. It is a rectangular grid and has to be as fine as possible to guarantee good transformation quality. A too fine a grid, on the other hand, significantly increases treatment time and needs for RAM.</p>
+	
+	<p>For this option to work, the number of cells on the larger side of the rectangle grid must be specified.  Automatically, the maximum cell-size  is determined in function of the smallest polygon feature size. Spatial extent of the polygon layer is also used to determine cell-size:  <em>e.g.</em> for East-West rectangle length of 500&nbsp;km and for a value of  50, cell size will be 10&nbsp;km on that side.</p>
+	
+	
+	
+	<a id="grid-2"></a>
+	<h3>iii - The second grid</h3>
+	
+	<p>The <a href="images/grid-2.png" class="picShow">second grid</a> is an important element of the transformation algorithm (the <em>Gastner &amp; Newmann diffusion algorithm</em>). It is squared and its quality is defined  by the total number <em>n</em> of cells, in such a way that <em>n</em> = 2<sup><em>k</em></sup> for <em>k</em> ∈ <strong>N</strong>. Denser  grids imply again a better cartogram quality but longer computation times and higher RAM usage. If the spatial features to transform are rather small over the whole spatial extent, it is preferable to choose a fine grid (256 or 512). Inversely a more coarsely partitioned space allows for a coarser grid  (64 or 128).</p>
+	
+	
+	
+	<a id="iterations"></a>
+	<h3>iv - The number of iterations</h3>
+	
+	<p>The preceding grid is used several times for the application of the <em>Gastner &amp; Newmann diffusion algorithm</em> for an optimal result. The finer the partitioning chosen in the preceding option,  the higher the number of iterations. Inversely, a coarser partioning may need one iteration only. While the optimal number of iterations cannot be analytically determined, by experience 1 to 5 iterations are sufficient. </p>
+	
+	
+	
+	
+	<a id="transformation-quality"></a>
+	<h2>2 - Transformation quality: the slider</h2>
+	
+	<p>The three preceding parameters can only be automatically adapted to a general quality requirement. You may wish a lower quality for getting a coarser estimate of the resulting map for research use, and a better quality for publication. Higher quality always increases treatment time.</p>
+
+<!-- help navigation -->
+<div style="margin-top:40px;"><div style="position:absolute; text-align:left;"><a href="b-other-layers.html">&lt; Previous help chapter</a></div> 
+<div style="position:absolute; right:40px;"><a href="d-computation-report.html">Next help chapter &gt;</a></div>
+</div>
+
+     </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ScapeToad - Help - How to interpret the results</title>
+<link href="../../chorogram.css" rel="stylesheet" />
+<link rel="icon" href="../../images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="../../images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="../../index.html">main page</a></li>
+			<li><a href="../../example.html">example</a></li>
+			<li><a href="../../download.html">download</a></li>
+			<li><a href="../v11/index.html">help</a></li>
+			<li><a href="../../faq.html">f.a.q.</a></li>
+			<li><a href="../../credits.html">credits</a></li>
+			<li><a href="../../contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">	
+	<h1>V - How to interpret the results</h1>	
+	<a id="error"></a>
+	<h2>1 - The error indicator</h2>
+	
+	<p>In theory, the statistical distribution of the <a href="d-computation-report.html#cartogram-error">error indicator (<em>A</em><sub>th</sub>/<em>A</em>)</a> follows the Normal law (Gaussian curve) centered on 100% (<em>i.e.</em> on perfect proportionality between <em>A</em><sub>th</sub> and <em>A</em>). If the statistical variable is very contrasted &#8212; both statistically an spatially &#8212;  the cartogram transformation will be subject to strong constraints. The higher this contrast, the more difficult it will be to limit polygon size error to zero while keeping space topology intact. Trying to achieve a totally accurate cartogram will thus be an unreachable goal in most cases. Nevertheless, you cartogam quality should be brought to a satisfying level with regard to the following criteria: </p>
+	
+	<ul>
+			<li>the<em> average</em>&nbsp;: an average correspondence between theoretical and observed polygon areas close to  100% (+/- 2 to 3%) can be considered as a good starting point. Other statistical aspects, however, do have to be considered. </li>
+			
+			<li>the <em>standard deviation</em>:  this indicator of error spread supplements information given by the average. Large values of this indicator mean that many features are either above or below expected size. A standard deviation of 50% or more indicates poor cartogram quality.</li>
+			
+			<li>The <em>quartiles</em>: this series of 3 indicators supplements information given by standard deviation:
+				<ul>
+					<li><strong>The median (2<sup>nd</sup> quartile)</strong>&nbsp;: should be compared to the mean. A divergence of more then 10% between  the arithmetic mean and the median indicates poor cartogram quality. </li>
+					<li><strong>The first and the third quartile&nbsp;</strong>: the exact half of all features have error values between the first (min.) and the third (max.) quartile. The values of these quartiles thus give an estimate of error-dispersion around the median. <em>E.g.</em> first and third quartile values of 90% and 110% respectively indicate that a half of the polygon feature areas <em>A </em>are neither smaller  than 90% of the expected area <em>A</em><sub>th</sub>, nor larger than 110% of  <em>A</em><sub>th</sub>: the cartogram quality is satisfying. First and thirs quartile values of  60% et 120% respectively indicate poor cartogram quality.</li>
+				</ul>
+			</li>
+		</ul>
+	</p>
+	
+	<a id="perfection"></a>
+	<h2>2 - What else can I do to make my cartogram more accurate?</h2>
+	
+	<p>Firstly, while <a href="c-transformation-parameters.html">raising general or advanced quality parameters</a> is the best way to achieve better cartogram quality within ScapeToad itself, you might want to consider working also on your original shape file.<a href="a-cartogram-creation.html#cartogram-layer"> Any remaining errors in the polygon layer should of course be cleansed</a>. But you should also consider partitioning polygons with high values for your statistical variable, while merging polygons with lower values. When producing a population cartogram, for instance, you should try to subdivide  towns into smaller town-districts if population data is available at that scale. The contrast of your spatial data will decrease in this manner, making it easier for ScapeToad to produce  cartograms of high quality. </p>
+	<p>Secondly, keep in mind that raising the number of iterations will not necessarily yield better results above a certain point. Especilly when choosing the number of iterations, other criteria then mere proportionality should be considered. Remember that most map users have been taught to read topographic maps. Their recongnition of spatial features relies not only on topology but also on relative positioning of the features, as well as on their general form. Though  better proportionality should always be sought, increasing the number of iterations above a certain point may bring only an insignificant improvement to proportionality, while significantly degrading readability. A graphical optimum should be sought for in this case.</p>
+	<a id="read-cartogram"></a>
+	<h2>3 - What one should consider when reading a cartogram and what ScapeToad is not for</h2>
+	
+	<p>Cartograms produced by ScapeToad are neither topographic maps, nor temporal distance maps (for the latter, <em>see e.g</em>. Spiekerman K. and Wegener M., <q>The shrinking continent: new time-space maps of Europe</q> in <em>Environment and Planning B</em>, 1994, volume 21, pp. 653-673). Remember that a cartogram produced by ScapeToad conserves only the topology, cardinal disposition and the general form of the topographic space.</p>
+
+<!-- help navigation -->
+<div style="margin-top:40px;"><div style="position:absolute; text-align:left;"><a href="d-computation-report.html">&lt; Previous help chapter</a></div> 
+<div style="position:absolute; right:40px;"><a href="index.html">Help index &gt;</a></div>
+</div>
+	
+         </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>

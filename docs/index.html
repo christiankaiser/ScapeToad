@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ScapeToad - cartogram software by the Choros laboratory</title>
+<link href="chorogram.css" rel="stylesheet" />
+<link rel="icon" href="images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="index.html">main page</a></li>
+			<li><a href="example.html">example</a></li>
+			<li><a href="download.html">download</a></li>
+			<li><a href="help/v11/index.html">help</a></li>
+			<li><a href="faq.html">f.a.q.</a></li>
+			<li><a href="credits.html">credits</a></li>
+			<li><a href="contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">      <h1>ScapeToad: not just one metric</h1>
+      <p class="notice"><strong>A note on this version.</strong> The ScapeToad you find here is showing its age: it was written many years ago and has not kept pace with modern Java and operating systems. It still does its job, but a complete rewrite is underway to bring cartogram creation up to date. Please check back later for news. In the meantime, bug reports and feedback are very welcome as <a href="https://github.com/christiankaiser/ScapeToad/issues">GitHub issues</a>.</p>
+      <p>Most 2D-maps are used  to represent topographic metrics: distances and areas measured on the map (multiplied by the map scale) give traveling distances and land surfaces. In some cases, this information is irrelevant or even misleading [<a href="example.html">see an example</a>]. As a cartographer, you may wish to use map metrics to represent other data, such as human populations or amounts of produced resources. This is what ScapeToad is for.  <br />
+</p>
+      <h2>How does it work?</h2>
+      <p>ScapeToad uses the Gastner/Newman [2004] diffusion-based algorithm to adapt map surfaces to user-defined variables without altering their topological relations. </p>
+      <p style="font-style: italic;"><img src="images/GastnerHowto1.gif" alt="Gastner/Newman algorithm 1" width="256" height="179" style="float:left; margin-right:10px; " />The software puts a regular grid over all layers (usually defined according to topographic metrics)...</p>
+      <div style="clear: both"></div>
+      <p style="font-style: italic"><img src="images/GastnerHowto2.gif" alt="Gastner/Newman algorithm 2" width="256" height="179" style="float:left; margin-right:10px;" />...it computes the density for each grid point...</p>
+            <div style="clear: both"></div>
+      <p style="font-style: italic"><img src="images/GastnerHowto3.gif" alt="Gastner/Neumann algorithm 2" width="256" height="179" style="float:left; margin-right:10px;"/>...and applies the Gastner/Newman algorithm while respecting shape constraints.</p>
+              <div style="clear: both"></div>
+      <p style="font-style: italic"><img src="images/GastnerHowto4.gif" alt="Gastner/Newman algorithm 2" width="256" height="179" style="float:left; margin-right:10px;"/>Map-areas now reflect user-defined variables.</p>
+      <div style="clear: both"></div>
+      <h2>How and where can it be used?</h2>
+      <p>ScapeToad  is a cross-platform, open-source application  written in <a href="http://www.java.com/en/about/" target="_blank">Java</a>,  designed as an independent application using  the <a href="http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf" target="_blank">ESRI Shapefile</a> format for input and output. </p>
+      <p>ScapeToad  also exports maps in <a href="http://www.w3.org/Graphics/SVG/" target="_parent">SVG</a> format.</p>
+      <p>ScapeToad has a <a href="help/v11/a-cartogram-creation.html#cartogram-constitution">user-friendly interface</a>, which guides the user throughout the map creation process.</p>
+      <h2>Where can I get ScapeToad?</h2>
+      <p>ScapeToad is available from our <a href="download.html">download page</a> since April 21<sup>st</sup> 2008.</p>
+     </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>

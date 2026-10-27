@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ScapeToad Help : Cartogram Creation</title>
+<link href="../../chorogram.css" rel="stylesheet" />
+<link rel="icon" href="../../images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="../../images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="../../index.html">main page</a></li>
+			<li><a href="../../example.html">example</a></li>
+			<li><a href="../../download.html">download</a></li>
+			<li><a href="../v11/index.html">help</a></li>
+			<li><a href="../../faq.html">f.a.q.</a></li>
+			<li><a href="../../credits.html">credits</a></li>
+			<li><a href="../../contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">
+	<h1>I - Cartogram creation</h1>
+
+	<a id="cartogram-definition"></a>
+	<h2>1 - The cartogram: a technical definition</h2>
+	
+	<p>Cartograms represent map feature surfaces in such a way, as to make them proportional to a given statistical variable. This representation method mostly derives from &quot;classical&quot; maps (i.e., maps representing ground topography) in the sense that the transformation can only be processed on an already given geometry. Topographical polygon layers are thus mostly used as a starting point for the production of any cartogram. </p>
+	
+	<p>The goal of ScapeToad is to achieve this transformation while leaving intact the topological relations of polygon features. 
+		</p>
+	
+	
+	
+	
+	
+	<a id="cartogram-constitution"></a>
+	<h2>2 - Cartogram creation process: what you need to start with</h2>
+	
+	<p>The <q><a href="images/create-cartogram-button.png" class="picShow">Create Cartogram</a></q> button opens the Wizard.</p>
+	
+	<p>In the <strong>first step</strong>, the wizard reminds you that two elements are necessary for cartogram creation: a <strong>polygon layer</strong> and a <strong>metric statistical variable defined for each polygon</strong>. (Metric variables are quantitative variables that allow for arithmetic operations, such as the calculation of  sums, proportions or averages).</p>
+	<p>Both elements must be stored in a <a href="http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf" target="_blank">shapefile</a> (i.e. an <em>*.shp</em> file with an associated <em>*.shx</em> index and a <em>*.dbf</em> data file). </p>
+	<a id="cartogram-layer"></a>
+	<h3>i - Spatial coverage: the polygon layer</h3>
+	
+	<p>The <a href="images/wizard-step-2.png" class="picShow">second step</a> of the wizard consists in <a href="images/cartogram-layer-menu.png" class="picShow">selecting a polygon features layer</a> to transform. All polygons must be <q>closed</q>,<em> i.e.</em>, constituted of a line which closes on itself.</p>
+	
+	<p>Moreover, the polygon features layer must have the following <strong>2 properties</strong>:
+		<ul>
+			<li>a surface defined in <strong>metric</strong> units</li>
+			<li>a <strong>clean topology</strong></li>
+		</ul>
+	<p> Topology quality is essential for transformation quality. For a polygon features layer, two types of contiguity errors must be avoided:
+		<table>
+			<tr>
+				<td><img src="images/topology-overlap-error.png" width="200" height="200" alt="Overlap error" /></td>
+				<td style="vertical-align: top"><p style="margin: 10px;"><em>Polygons must not overlap as is the case in the left-side figure.</em></p></td>
+			</tr>
+			<tr>
+				<td><img src="images/topology-gap-error.png" width="200" height="200" alt="Gap error" /></td>
+				<td style="vertical-align: top"><p style="margin: 10px;"><em>There should be no gaps between polygons, except to describe real topological discontinuities, such as lakes or islands. </em></p>
+				  <p style="margin: 10px;"><em>The left-side figure illustrates an erroneous gap.</em></p></td>
+			</tr>
+		</table>
+
+	</p>
+	
+	
+	<p>
+		
+		<table>
+			<tr>
+				<td><img src="images/topology-common-error.png" width="200" height="200" alt="Overlap error" /></td>
+				<td style="vertical-align: top"><p style="margin: 10px;"><em>Thus, a <q>clean topology</q> means a point to point duplication of polygon borders for any pair of adjacent segments. </em></p>
+				  <p style="margin: 10px;"><em>The left-side figure illustrates a common error where duplication is imperfect, due to a form that does not immediately justify the presence of a point, as in the case for the red polygon, which does not have a point where at the red-green-blue intersection. </em></p></td>
+			</tr>
+			<tr>
+				<td><img src="images/topology-perfect-contiguity.png" width="200" height="200" alt="Gap error" /></td>
+				<td style="vertical-align: top"><p style="margin: 10px;"><em>ScapeToad transformation preserves topology. It perfectly manages even complex entities such as archipelagos and enclaves/exclaves. Though ScapeToad does a preliminary automatic correction, starting off with an as clean initial layer as possible significantly improves transformation quality. </em></p>
+				  <p style="margin: 10px;"><em>Software for layer verification and correction is provided with most professional GIS and should be used before submitting your layer for transformation to ScapeToad.</em></p></td>
+			</tr>
+		</table>
+		
+	</p>
+	
+	
+	<a id="cartogram-attribute"></a>
+	<h3>ii - A statistical variable</h3>
+	
+	<p>In the  <a href="images/wizard-step-3.png" class="picShow">third step</a>, the wizard asks you to <a href="images/cartogram-attribute-menu.png" class="picShow">select a metric variable</a>   linked to the layer (attribute data) that will become the new metric unit of the cartogram surface. Only a metric variable allows for the calculation of surface proportions between polygon areas.</p>
+	<a id="mass"></a>
+    <h4>Mass</h4>
+    <p>A numeric variable can either represent a mass or a ratio. A  <strong>mass</strong> (<em>e.g.</em> a population or a wealth)  is measured or estimated over the whole surface of each polygon. A ratio can either be a <em>mass/mass</em> ratio, (such as a BNP per inhabitant) or a <em>mass/surface</em> ratio, in which case we speak of <strong>density</strong> (we have a ratio between a mass and the surface of the polygon to which this mass is attributed). <br />
+    </p>
+    <a id="density"></a>
+	<h4>Density</h4>
+	<p>Mass can be represented with a cartogram, as well as <strong>density</strong>, insofar as density is converted back to mass (<em>i.e.</em> multiplied by polygon surfaces). Please note that <strong>a <em>mass/mass</em> ratio, on the opposite, should not be represented in this manner, while it cannot be translated into  a metric</strong>: the percentage of people in employment of a region composed of 3 sub-regions is neither the sum of the percentages of each sub-region, nor even their arithmetic average. Placing all 3 sub-regions in the same metric space would misleadingly suggest that such an addition is possible. </p>
+	<a id="ratio-error"></a>
+	<h2>3 - Technically feasible... but wrong</h2>
+	
+	<p>It is technically feasible for ScapeToad to  make a cartogram out of spatial data that do not follow the above guidelines. There is a significant risk, however, that the resulting cartogram will lead to mislading map interpretations.
+</p>
+
+<!-- help navigation -->
+<div style="margin-top:40px;">
+  <div style="position:absolute; text-align:left;"><a href="index.html">&lt; Help index</a></div> 
+  <div style="position:absolute; right:40px;"><a href="b-other-layers.html">Next help chapter ></a></div>
+</div>
+	
+	     </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>

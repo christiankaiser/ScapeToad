@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>ScapeToad Help : The Other Layers</title>
+	<link href="../../chorogram.css" rel="stylesheet" />
+<link rel="icon" href="../../images/favicon.ico" />
+</head>
+
+<body>
+
+<div class="main-container">
+   <div class="logo">
+   <a href="index.html">
+   <img src="../../images/scapetoad200.png" alt="Scapetoad logo by Andre Ourednik" />
+   </a>
+    <nav>
+        <ul>
+			<li><a href="../../index.html">main page</a></li>
+			<li><a href="../../example.html">example</a></li>
+			<li><a href="../../download.html">download</a></li>
+			<li><a href="../v11/index.html">help</a></li>
+			<li><a href="../../faq.html">f.a.q.</a></li>
+			<li><a href="../../credits.html">credits</a></li>
+			<li><a href="../../contact.html">contact</a></li>
+        </ul>
+    </nav>
+   </div>
+   <div class="text-container">
+   
+   		<!--- box border -->
+		<div id="blc"><div id="brc"><div id="tlc"><div id="trc">
+		<!--  -->
+		
+		<main class="text-body">
+<h1>II - The other layers</h1>
+	
+
+	<p>Scape Toad can take into account other layers referenced in the same projection system as the one chosen for the main transformation layer. There are two ways in which you can include these layers in the transformation process: 
+<ul>
+			<li>they can follow the transformation of the main layer</li>
+			<li>they can limit the transformation of the main layer</li>
+		</ul>
+	</p>
+	
+	
+	<a id="simultaneous-transformation"></a>
+	<h2>1 - Simultaneous transformation</h2>
+	
+	<p><a href="images/layers-to-transform.png" class="picShow">Wizard step 4, option <q>Layers to transform...</q></a></p>
+	
+	<p>The transformation of the main layer (for which a statistical variable has been chosen) will <q>drag along</q> the features of one or more layer, be they constituted of points, lines (<em>e.g.</em> a transportation network) or zones. </p>
+	<p>An example of simultaneous transformation:</p>
+<p >
+<img src="images/simultaneous-layers-ex1.jpg" width="500" height="337" alt="Superposition of the initial layers: topographic metric of commune partionning and of the transportation network." />
+Superposition of the initial layers: topographic metric of commune partioning and of the transportation network.</p>
+	
+<p >
+<img src="images/simultaneous-layers-ex2.jpg" width="500" height="337" alt="Layer superposition after transformation: commune population cartogram with simultaneous transformation of the transportation network." />
+Layer superposition after transformation: commune population cartogram with simultaneous transformation of the transportation network.</p>
+	
+
+
+
+	<a id="constrained-transformation"></a>
+	<h2>2 - The limited transformation</h2>
+	<p><a href="images/constrained-transformation.png" class="picShow">Wizard step 4, option <q>Constrained transformation...</q></a></p>
+
+	<p>One or more layers can restrict space transformation in order to preserve some topographical features. Please note that transformation prevails on feature conservation as far as required by the selected statistical variable.</p>
+	
+	
+<!-- help navigation -->
+<div style="margin-top:40px;">
+<div style="position:absolute; text-align:left;"><a href="a-cartogram-creation.html">&lt; Previous help chapter</a></div> 
+<div style="position:absolute; right:40px;"><a href="c-transformation-parameters.html">Next help chapter &gt;</a></div>
+</div>
+	
+     </main>
+	 
+
+
+		<!--- end of box border -->
+		</div></div></div></div>
+		<!-- -->
+
+<footer class="footer">webmaster &amp; design : <a href="http://www.ourednik.info">soumraky</a></footer>
+</div>
+   
+</div> <!-- main-container -->
+
+</body>
+</html>
